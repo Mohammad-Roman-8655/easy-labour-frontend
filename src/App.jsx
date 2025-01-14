@@ -1,34 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react"
+import { BrowserRouter,Route,Routes } from "react-router-dom"
+import NavBar from "./Components/NavBarComp/navBar"
+import Home from  "./Pages/Home/Home"
+import Services from "./Pages/Services/Services"
+import About from "./Pages/About/About"
+import Contact from "./Pages/Contact/Contact"
+import Login from "./Pages/Login/Login"
+import AddProfile from "./Pages/AddProfile/AddProfile"
+import Job from "./Pages/Job/Job"
+import Contractor from "./Pages/Contractor/Contractor"
+import Labour from "./Pages/Labour/Labour"
+import RentalEquipment from "./Pages/Rental Equipment/RentalEquipment"
+import Reviews from "./Pages/Reviews/Reviews"
+import Media from "./Pages/Media/Media"
+import Business from "./Pages/Business/Business"
+import CancellationPolicy from "./Pages/CancellationPolicy/CancellationPolicy"
+import Disclaimer from "./Pages/Disclaimer/Disclaimer"
+import PrivacyAndPolicy from "./Pages/PrivacyAndPolicy/PrivacyAndPolicy"
+import RefundPolicy from "./Pages/RefundPolicy/RefundPolicy"
+import TermsAndConditions from "./Pages/TermsAndConditons/TermsAndConditions"
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+   <>
+   <BrowserRouter>
+   <NavBar/>
+   <Routes>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/Services" element={<Services/>}/>
+    <Route path="/About" element={<About/>}/>
+    <Route path="/Contact" element={<Contact/>}/>
+    <Route path="/Login" element={<Login/>}/>
+    <Route path="/AddProfile" element={<AddProfile/>}/>
+    <Route path="/Jobs" element={<Job/>}/>
+    <Route path="/Labours" element={<Labour/>}/>
+    <Route path="/Contractors" element={<Contractor/>}/>
+    <Route path="/RentalEquipments" element={<RentalEquipment/>}/>
+    <Route path="/Reviews" element={<Reviews/>}/>
+    <Route path="/Media" element={<Media/>}/>
+    <Route path="/Business" element={<Business/>}/>
+    <Route path="/CancellationPolicy" element={<CancellationPolicy/>} />
+    <Route path="/Disclaimer" element={<Disclaimer/>}/>
+    <Route path="/PrivacyAndPolicy" element={<PrivacyAndPolicy/>}/>
+    <Route path="/RefundPolicy" element={<RefundPolicy/>}/>
+    <Route path="/TermsAndConditions" element={<TermsAndConditions/>}/>
+   </Routes>
+   </BrowserRouter>
+   </>
   )
 }
 
