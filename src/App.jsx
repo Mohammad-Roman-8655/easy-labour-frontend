@@ -1,11 +1,13 @@
 import React from "react"
-import { BrowserRouter,Route,Routes } from "react-router-dom"
+import { BrowserRouter,Route,Routes,Router } from "react-router-dom"
+
 import NavBar from "./Components/NavBarComp/navBar"
 import Home from  "./Pages/Home/Home"
 import Services from "./Pages/Services/Services"
 import About from "./Pages/About/About"
 import Contact from "./Pages/Contact/Contact"
 import Login from "./Pages/Login/Login"
+import Signup from "./Pages/Login/Signup"
 import AddProfile from "./Pages/AddProfile/AddProfile"
 import Job from "./Pages/Job/Job"
 import Contractor from "./Pages/Contractor/Contractor"
@@ -19,6 +21,7 @@ import Disclaimer from "./Pages/Disclaimer/Disclaimer"
 import PrivacyAndPolicy from "./Pages/PrivacyAndPolicy/PrivacyAndPolicy"
 import RefundPolicy from "./Pages/RefundPolicy/RefundPolicy"
 import TermsAndConditions from "./Pages/TermsAndConditons/TermsAndConditions"
+import Footer from "./Components/Footer/Footer"
 
 function App() {
 
@@ -33,6 +36,7 @@ function App() {
     <Route path="/About" element={<About/>}/>
     <Route path="/Contact" element={<Contact/>}/>
     <Route path="/Login" element={<Login/>}/>
+    <Route path="/SignUp" element={<Signup/>}/>
     <Route path="/AddProfile" element={<AddProfile/>}/>
     <Route path="/Jobs" element={<Job/>}/>
     <Route path="/Labours" element={<Labour/>}/>
@@ -47,7 +51,10 @@ function App() {
     <Route path="/RefundPolicy" element={<RefundPolicy/>}/>
     <Route path="/TermsAndConditions" element={<TermsAndConditions/>}/>
    </Routes>
+   <Footer/>
    </BrowserRouter>
+
+   
    </>
   )
 }
