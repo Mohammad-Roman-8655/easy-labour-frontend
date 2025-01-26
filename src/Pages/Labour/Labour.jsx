@@ -43,7 +43,7 @@ function Labour() {
         Search
       </button>
       <div className='w-[50%]'>
-        <NavLink className='w-[100%] p-2 px-5 text-black bg-white font-bold mx-10 border-2 border-black rounded-md' to="/AddProfile">Add Labour</NavLink >
+        <NavLink className='w-[100%] p-2 px-5 text-black bg-white font-bold mx-10 border-2 border-black rounded-md' to="/AddLabour">Add Labour</NavLink >
       </div>
 
     </div>

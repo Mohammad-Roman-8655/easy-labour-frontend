@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter,Route,Routes,Router } from "react-router-dom"
+import { BrowserRouter,Route,Routes} from "react-router-dom"
 
 import NavBar from "./Components/NavBarComp/navBar"
 import Home from  "./Pages/Home/Home"
@@ -9,6 +9,10 @@ import Contact from "./Pages/Contact/Contact"
 import Login from "./Pages/Login/Login"
 import Signup from "./Pages/Login/Signup"
 import AddProfile from "./Pages/AddProfile/AddProfile"
+import AddJobs from "./Pages/AddProfile/AddJobs"
+import AddLabour from "./Pages/AddProfile/AddLabour"
+import AddContractor from "./Pages/AddProfile/AddContractor"
+import AddEquipments from "./Pages/AddProfile/AddEquipments"
 import Job from "./Pages/Job/Job"
 import Contractor from "./Pages/Contractor/Contractor"
 import Labour from "./Pages/Labour/Labour"
@@ -38,6 +42,10 @@ function App() {
     <Route path="/Login" element={<Login/>}/>
     <Route path="/SignUp" element={<Signup/>}/>
     <Route path="/AddProfile" element={<AddProfile/>}/>
+    <Route path="/AddJobs" element={<AddJobs/>}/>
+    <Route path="/AddLabour" element={<AddLabour/>}/>
+    <Route path="/AddContractor" element={<AddContractor/>}/>
+    <Route path="/AddEquipments" element={<AddEquipments/>}/>
     <Route path="/Jobs" element={<Job/>}/>
     <Route path="/Labours" element={<Labour/>}/>
     <Route path="/Contractors" element={<Contractor/>}/>

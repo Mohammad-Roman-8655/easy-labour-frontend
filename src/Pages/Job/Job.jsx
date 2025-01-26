@@ -43,7 +43,7 @@ function Job() {
           Search
         </button>
         <div className='w-[50%]'>
-          <NavLink className='w-[100%] p-2 px-5 text-black bg-white font-bold mx-10 border-2 border-black rounded-md' to="/AddProfile">Add Jobs</NavLink >
+          <NavLink className='w-[100%] p-2 px-5 text-black bg-white font-bold mx-10 border-2 border-black rounded-md' to="/AddJobs">Add Jobs</NavLink >
         </div>
 
       </div>
