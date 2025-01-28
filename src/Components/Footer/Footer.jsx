@@ -28,13 +28,13 @@ function Footer() {
       <NavLink className="hover:underline font-medium" to="/Contact">Contact us</NavLink>
       <NavLink className="hover:underline font-medium" to="/Media">Media</NavLink>
       <NavLink className="hover:underline font-medium" to="/Jobs">Jobs</NavLink>
-      <NavLink className="hover:underline font-medium" to="/Business">Business</NavLink>
+      <NavLink className="hover:underline font-medium" to="/Services">Business</NavLink>
       <NavLink className="hover:underline font-medium" to="/Labours">Worker</NavLink>
-      <NavLink className="hover:underline font-medium" to="/TermsAndConditions">Terms & Conditions</NavLink>
+      <NavLink className="hover:underline font-medium" to="/PrivacyAndPolicy">Terms & Conditions</NavLink>
       <NavLink className="hover:underline font-medium" to="/PrivacyAndPolicy">Privacy Policy</NavLink>
-      <NavLink className="hover:underline font-medium" to="/CancellationPolicy">Cancellation Policy</NavLink>
-      <NavLink className="hover:underline font-medium" to="/RefundPolicy">Refund Policy</NavLink>
-      <NavLink className="hover:underline font-medium" to="/Disclaimer">Disclaimer</NavLink>
+      <NavLink className="hover:underline font-medium" to="/PrivacyAndPolicy">Cancellation Policy</NavLink>
+      <NavLink className="hover:underline font-medium" to="/PrivacyAndPolicy">Refund Policy</NavLink>
+      <NavLink className="hover:underline font-medium" to="/PrivacyAndPolicy">Disclaimer</NavLink>
     </div>
     <div className='flex flex-col w-full lg:w-1/3 p-5'>
       <div className='mb-4'>
