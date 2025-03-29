@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 
 function NavBarTop() {
+    const { user, logout } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -72,13 +74,22 @@ function NavBarTop() {
             >
               Contact
             </NavLink>
-            <NavLink
-              className="block text-lg font-semibold py-2 md:inline md:py-0 hover:underline"
-              to="/Login"
-              onClick={() => setIsOpen(false)}
-            >
-              Login / Sign up
-            </NavLink>
+            <div className="flex gap-5">
+           {user ? (
+                <>
+                <span className="mr-4">Welcome, {user.username}</span>
+                <button onClick={logout} className="bg-red-500 px-3 py-1 rounded">
+                 Logout
+               </button>
+               </>
+            ) : (
+           <>
+             <NavLink to="/Login"  onClick={() => setIsOpen(false)}  className="block text-lg font-semibold py-2 md:inline md:py-0 hover:underline">Login</NavLink>
+             <NavLink to="/SignUp" onClick={() => setIsOpen(false)}  className="block text-lg font-semibold py-2 md:inline md:py-0 hover:underline">Register</NavLink>
+          </>
+        )}
+      </div>
+          
           </div>
         </div>
       </div>

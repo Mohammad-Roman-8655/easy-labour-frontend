@@ -1,4 +1,5 @@
 import React from "react"
+import { AuthProvider } from "./Context/AuthContext";
 import { BrowserRouter,Route,Routes} from "react-router-dom"
 
 import NavBar from "./Components/NavBarComp/navBar"
@@ -13,10 +14,15 @@ import AddJobs from "./Pages/AddProfile/AddJobs"
 import AddLabour from "./Pages/AddProfile/AddLabour"
 import AddContractor from "./Pages/AddProfile/AddContractor"
 import AddEquipments from "./Pages/AddProfile/AddEquipments"
+import AddCompany from "./Pages/AddProfile/AddCompany";
 import Job from "./Pages/Job/Job"
+import ApplyJob from "./Pages/Apply Job/ApplyJob"
 import Contractor from "./Pages/Contractor/Contractor"
+import ViewDetailsContractor from "./Pages/ViewDetails/ViewDetailsContractor"
 import Labour from "./Pages/Labour/Labour"
+import ViewDetailsLabour from "./Pages/ViewDetails/ViewDetailsLabour"
 import RentalEquipment from "./Pages/Rental Equipment/RentalEquipment"
+import ViewDetailsShops from "./Pages/ViewDetails/ViewDetailsShops"
 import Reviews from "./Pages/Reviews/Reviews"
 import Media from "./Pages/Media/Media"
 import Business from "./Pages/Business/Business"
@@ -32,6 +38,7 @@ function App() {
 
   return (
    <>
+   <AuthProvider>
    <BrowserRouter>
    <NavBar/>
    <Routes>
@@ -46,10 +53,15 @@ function App() {
     <Route path="/AddLabour" element={<AddLabour/>}/>
     <Route path="/AddContractor" element={<AddContractor/>}/>
     <Route path="/AddEquipments" element={<AddEquipments/>}/>
+    <Route path="/AddCompany" element={<AddCompany/>}/>
     <Route path="/Jobs" element={<Job/>}/>
+    <Route path="/ApplyJob" element={<ApplyJob/>}/>
     <Route path="/Labours" element={<Labour/>}/>
+    <Route path="/ViewDetailsLabour" element={<ViewDetailsLabour/>}/>
     <Route path="/Contractors" element={<Contractor/>}/>
+    <Route path="/ViewDetailsContractor" element={<ViewDetailsContractor/>}/>
     <Route path="/RentalEquipments" element={<RentalEquipment/>}/>
+    <Route path="/ViewDetailsShops" element={<ViewDetailsShops/>} />
     <Route path="/Reviews" element={<Reviews/>}/>
     <Route path="/Media" element={<Media/>}/>
     <Route path="/Business" element={<Business/>}/>
@@ -62,7 +74,7 @@ function App() {
    <Footer/>
    </BrowserRouter>
 
-   
+   </AuthProvider>
    </>
   )
 }

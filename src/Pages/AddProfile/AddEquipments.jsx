@@ -38,7 +38,7 @@ function AddEquipments() {
         <input type="tel" name="phone" placeholder="Phone Number" onChange={handleChange} required className="w-full p-2 border rounded-md" />
         <input type="tel" name="whatsapp" placeholder="WhatsApp Number" onChange={handleChange} required className="w-full p-2 border rounded-md" />
         <input type="email" name="email" placeholder="Email" onChange={handleChange} required className="w-full p-2 border rounded-md" />
-        <input type="url" name="orderLink" placeholder="Google Form Link for Orders" onChange={handleChange} className="w-full p-2 border rounded-md" />
+        <input type="text" name="orderLink" placeholder="Google Form Link for Orders" onChange={handleChange} className="w-full p-2 border rounded-md" />
         <textarea name="description" placeholder="Describe available materials & equipment" onChange={handleChange} required className="w-full p-2 border rounded-md h-24"></textarea>
         <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">Submit</button>
       </form>

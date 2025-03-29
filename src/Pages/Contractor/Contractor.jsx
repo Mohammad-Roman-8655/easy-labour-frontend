@@ -1,7 +1,34 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink,useNavigate } from 'react-router-dom'
+import { useState,useEffect } from 'react'
 
 function Contractor() {
+  const [Contractors,setContractores]=useState([]);
+
+  const fectchContracters = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/contractors");
+      const data= await response.json();
+      setContractores(data);
+      
+    } catch (error) {
+        console.error("Error : ",error);
+    }
+  }
+
+  useEffect(() => {
+    fectchContracters();
+  },[]);
+
+  const navigate=useNavigate();
+  const  handleViewDetailsContractor = (index) => {
+    navigate("/ViewDetailsContractor",
+      {state:{
+        Contractor:Contractors[index]
+      }}
+    );
+  }
+ 
   return (
     <div>
     <div className='w-full'>
@@ -50,40 +77,40 @@ function Contractor() {
    
   </div>
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mx-auto w-full p-5">
-    {[...Array(80)].map((_, index) => (
+    {Contractors.map((Contractor, index) => (
       <div key={index} className="w-full border-2 rounded-lg overflow-hidden">
         <img
           className="w-full h-48 object-cover"
-          src="https://res.cloudinary.com/dcxlcy6ls/image/upload/v1737796018/bph84edkvtplmhlger5y.png"
+          src={Contractor.profilePhoto}
           alt="Contractor-image"
         />
         <div className="flex flex-col p-3">
-          <h1 className="text-xl font-semibold">Mateen Mousoof</h1>
-          <p className="font-normal">Carpenter Contractor</p>
-          <p className="font-normal"> Experience : 5+ years</p>
-          <p className="font-normal">Status: Available</p>
+          <h1 className="text-xl font-semibold">{Contractor.name}</h1>
+          <p className="font-normal">{Contractor.profession}</p>
+          <p className="font-normal"> Experience : {Contractor.expLevel}</p>
+          <p className="font-normal">Status: {Contractor.Availability}</p>
           
 
-          <p className="font-light mb-3"><i className="fa-solid fa-location-dot"></i> Lucknow, UP</p>
+          <p className="font-light mb-3"><i className="fa-solid fa-location-dot"></i> {Contractor.Address}</p>
           <div className="flex items-center justify-between">
-            <a
+            <button
               className="w-2/3 border-2 bg-blue-500 text-white font-semibold p-1 rounded-3xl text-center"
-              href=""
+              onClick={() => {handleViewDetailsContractor(index)}}
             >
-              Contact Us
-            </a>
+             View Details
+            </button>
             <a
-              className="font-bold text-blue-600 text-2xl"
-              href="tel:+916386663632"
-            >
+                 className="font-bold text-blue-600 text-2xl"
+                href={`tel:+91${Contractor.pnoneNum}`} // Removed the space after +91
+               >
               <i className="fa-solid fa-phone"></i>
-            </a>
-            <a
-              className="font-bold text-green-400 text-3xl"
-              href="https://wa.me/6386663632"
-            >
-              <i className="fa-brands fa-whatsapp"></i>
-            </a>
+              </a>
+              <a
+                className="font-bold text-green-400 text-3xl"
+                href={`https://wa.me/${Contractor.whatsappNum}`}
+              >
+                <i className="fa-brands fa-whatsapp"></i>
+              </a>
           </div>
         </div>
       </div>

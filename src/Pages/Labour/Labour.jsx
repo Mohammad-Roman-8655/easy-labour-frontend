@@ -1,7 +1,36 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink,useNavigate } from 'react-router-dom'
+import { useState,useEffect } from 'react'
 
 function Labour() {
+  const [Labours,setLabours]=useState([]);
+  const fetchLabours = async () => {
+    try {
+  
+      const response =await fetch('http://localhost:3000/api/labours');
+      const data=await response.json();
+      console.log(data);
+      setLabours(data);
+      
+    } catch (error) {
+       console.error("Error : ",error);
+    }
+  }
+
+  useEffect(() => {
+    fetchLabours();
+    
+  },[]);
+
+    const navigate=useNavigate();
+    const handleViewDetailsLabour = (idx) => {
+      // console.log(Jobs[idx])
+      navigate("/ViewDetailsLabour", {
+        state: {
+           Labour:Labours[idx]
+        },
+      });
+    };
   return (
     <div>
     <div className='w-full'>
@@ -50,40 +79,42 @@ function Labour() {
    
   </div>
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mx-auto w-full p-5">
-    {[...Array(80)].map((_, index) => (
-      <div key={index} className="w-full border-2 rounded-lg overflow-hidden">
+    {Labours.map((Labour, idx) => (
+      <div key={idx} className="w-full border-2 rounded-lg overflow-hidden">
         <img
           className="w-full h-48 object-cover"
-          src="https://res.cloudinary.com/dcxlcy6ls/image/upload/v1737795385/es7jp0cwhkjk8qwzgzxt.webp"
+          src={Labour.profilePhoto}
           alt="labour-type"
         />
         <div className="flex flex-col p-3">
-          <h1 className="text-xl font-semibold">Rahul kumar</h1>
-          <p className="font-normal">Carpenter</p>
-          <p className="font-normal"> 500 / day</p>
-          <p className="font-normal">Status: Available</p>
+          <h1 className="text-xl font-semibold">{Labour.name}</h1>
+          <p className="font-normal">Position : {Labour.profession}</p>
+          <p className="font-normal"> Salary: {Labour.salary} / day</p>
+          <p className="font-normal">Status: {Labour.Availability}</p>
           
 
-          <p className="font-light mb-3"><i className="fa-solid fa-location-dot"></i> Lucknow, UP</p>
+          <p className="font-light mb-3"><i className="fa-solid fa-location-dot"></i> {Labour.address}</p>
+          
           <div className="flex items-center justify-between">
-            <a
+            <button
               className="w-2/3 border-2 bg-blue-500 text-white font-semibold p-1 rounded-3xl text-center"
-              href=""
+              onClick={() => {handleViewDetailsLabour(idx)}}
             >
-              Hire Me
-            </a>
+              View Details
+            </button>
             <a
-              className="font-bold text-blue-600 text-2xl"
-              href="tel:+916386663632"
-            >
+                 className="font-bold text-blue-600 text-2xl"
+                href={`tel:+91${Labour.phoneNum}`} // Removed the space after +91
+               >
               <i className="fa-solid fa-phone"></i>
-            </a>
+              </a>
+
             <a
-              className="font-bold text-green-400 text-3xl"
-              href="https://wa.me/6386663632"
-            >
-              <i className="fa-brands fa-whatsapp"></i>
-            </a>
+                className="font-bold text-green-400 text-3xl"
+                href={`https://wa.me/${Labour.whatsappNum}`}
+              >
+                <i className="fa-brands fa-whatsapp"></i>
+              </a>
           </div>
         </div>
       </div>

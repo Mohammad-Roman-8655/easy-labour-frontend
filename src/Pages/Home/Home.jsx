@@ -1,9 +1,24 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink,useNavigate } from 'react-router-dom'
+import { useState,useEffect } from 'react'
+
 import NavBarMain from '../../Components/NavBarComp/NavBarMain'
 
 
 function Home() {
+  const [Reviews,setReviews]=useState([]);
+  const fetchReviews = async () => {
+    try {
+        const response= await fetch("http://localhost:3000/api/reviews");
+        const data= await response.json();
+        setReviews(data);
+    } catch (error) {
+       console.error("Error : ",error);
+    }
+  }
+  useEffect(() => {
+    fetchReviews();
+  },[]);
   const data=[
     {
       message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
@@ -70,6 +85,9 @@ function Home() {
         <NavLink className="w-full sm:w-1/3 text-lg lg:text-xl font-semibold p-2 text-center rounded-lg border-2 border-black text-white bg-blue-500 hover:underline" to="/Contractors">
           <i className="fa-solid fa-user mr-1"></i>Contractors
         </NavLink>
+        <NavLink className="w-full sm:w-1/3 text-lg lg:text-xl font-semibold p-2 text-center rounded-lg border-2 border-black text-white bg-blue-500 hover:underline" to="/RentalEquipments">
+          <i className="fa-solid fa-user mr-1"></i>Shops
+        </NavLink>
       </div>
     </div>
     <div className='w-full lg:w-2/5'>
@@ -126,15 +144,15 @@ function Home() {
       <h1 className='text-2xl lg:text-4xl font-bold text-center mb-5 lg:mb-10 text-blue-500'>What People Say About Us</h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-5 lg:mb-10'>
         {
-          data.map((review, idx) => {
+          Reviews.map((Review, idx) => {
             return (
               <div key={idx} className='mx-auto border-2 p-3 rounded-xl'>
-                <p className='mb-3'>{review.message}</p>
+                <p className='mb-3'>{Review.comment}</p>
                 <div className='flex gap-3 items-center'>
-                  <img className='w-10 h-10 rounded-full' src={review.profile} alt={review.name} />
+                  <img className='w-10 h-10 rounded-full' src={Review.reviewerImage} alt={Review.reviewerName} />
                   <div>
-                    <h1 className='text-blue-600 font-semibold'>{review.name}</h1>
-                    <p>{review.category}</p>
+                    <h1 className='text-blue-600 font-semibold'>{Review.reviewerName}</h1>
+                    <p>{Review.reviewerPosition}</p>
                   </div>
                 </div>
               </div>

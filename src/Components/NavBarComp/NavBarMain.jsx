@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 function NavBarMain() {
+  
   return (
     <div className='bg-blue-500'>
   <div className='flex flex-wrap justify-around gap-5 p-5 w-full items-center'>

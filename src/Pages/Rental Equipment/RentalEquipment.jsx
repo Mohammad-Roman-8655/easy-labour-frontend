@@ -1,6 +1,38 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink,useNavigate} from 'react-router-dom'
+import { useState,useEffect } from 'react'
 function RentalEquipment() {
+  const [Shops,setShops]=useState([]);
+  function formatShopTiming(openTime, closeTime) {
+    const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+
+    const openFormatted = new Date(openTime).toLocaleTimeString('en-US', options);
+    const closeFormatted = new Date(closeTime).toLocaleTimeString('en-US', options);
+
+    return `Open: ${openFormatted} to ${closeFormatted}`;
+}
+  const fetchShops = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/shops');
+      const data = await response.json();
+      setShops(data);
+    } catch (error) {
+         console.error("Error : ",error);
+    }
+  }
+
+  useEffect(() => {
+    fetchShops();
+  },[]);
+  
+  const navigate=useNavigate();
+  const handleViewDetailsShops = (index) => {
+     navigate("/ViewDetailsShops", 
+      {state:{
+        Shop:Shops[index]
+      }
+     });
+  }
   return (
 <div>
   <div className="w-full">
@@ -51,33 +83,33 @@ function RentalEquipment() {
     </div>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mx-auto w-full p-5">
-      {[...Array(80)].map((_, index) => (
+      {Shops.map((Shop, index) => (
         <div key={index} className="w-full border-2 rounded-lg overflow-hidden">
           <img
             className="w-full h-48 object-cover"
-            src="https://res.cloudinary.com/dcxlcy6ls/image/upload/v1737783711/hdgrwr8kf1thqdczvuw0.webp"
-            alt="Hindustan-hardware"
+            src={Shop.shopImage}
+            alt={Shop.shopName}
           />
           <div className="flex flex-col p-3">
-            <h1 className="text-xl font-semibold">Hindustan Hardware</h1>
-            <p className="font-normal">Open: 9 AM to 5 PM</p>
-            <p className="font-light mb-3"><i className="fa-solid fa-location-dot"></i> Lucknow, UP</p>
+            <h1 className="text-xl font-semibold">{Shop.shopName}</h1>
+            <p className="font-normal">{formatShopTiming(Shop.openTime,Shop.closeTime)}</p>
+            <p className="font-light mb-3"><i className="fa-solid fa-location-dot"></i> {Shop.address}</p>
             <div className="flex items-center justify-between">
-              <a
+              <button
                 className="w-2/3 border-2 bg-blue-500 text-white font-semibold p-1 rounded-3xl text-center"
-                href=""
+               onClick={() => { handleViewDetailsShops(index)}}
               >
-                Order Now
-              </a>
+                View Details
+              </button>
               <a
-                className="font-bold text-blue-600 text-2xl"
-                href="tel:+916386663632"
-              >
-                <i className="fa-solid fa-phone"></i>
+                 className="font-bold text-blue-600 text-2xl"
+                href={`tel:+91${Shop.phone}`} // Removed the space after +91
+               >
+              <i className="fa-solid fa-phone"></i>
               </a>
               <a
                 className="font-bold text-green-400 text-3xl"
-                href="https://wa.me/6386663632"
+                href={`https://wa.me/${Shop.whatsapp}`}
               >
                 <i className="fa-brands fa-whatsapp"></i>
               </a>

@@ -9,6 +9,7 @@ function AddProfile() {
         <NavLink className="lg:w-[50%] md:w-[50%] sm:w-[60%] w-[60%] text-white bg-blue-500 p-3 font-bold border-2 border-gray-400 hover:border-black text-center rounded-xl hover:underline" to="/AddContractor">Add Contractor</NavLink>
         <NavLink className="lg:w-[50%] md:w-[50%] sm:w-[60%] w-[60%] text-white bg-blue-500 p-3 font-bold border-2 border-gray-400 hover:border-black text-center rounded-xl hover:underline" to="/AddJobs">Add Jobs</NavLink>
         <NavLink className="lg:w-[50%] md:w-[50%] sm:w-[60%] w-[60%] text-white bg-blue-500 p-3 font-bold border-2 border-gray-400 hover:border-black text-center rounded-xl hover:underline" to="/AddEquipments">Add Rental Equipments & Shop</NavLink>
+        <NavLink className="lg:w-[50%] md:w-[50%] sm:w-[60%] w-[60%] text-white bg-blue-500 p-3 font-bold border-2 border-gray-400 hover:border-black text-center rounded-xl hover:underline" to="/AddCompany">Add Company</NavLink>
       </div>
     </div>
   )
