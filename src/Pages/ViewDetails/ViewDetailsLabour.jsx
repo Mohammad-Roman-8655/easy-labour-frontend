@@ -1,98 +1,70 @@
-import React from 'react'
-import { useLocation } from "react-router-dom";
+import React,{useState, useEffect} from 'react'
+import { useLocation,useNavigate } from "react-router-dom";
 
 function ViewDetailsLabour() {
     const location = useLocation();
   const {Labour} = location.state || {};
+  const navigate = useNavigate();
+  const handleDeleteLabour = async () => {
+    if (!window.confirm("Are you sure you want to delete this Labour?")) return;
+  
+    try {
+      const response = await fetch(`http://localhost:3000/api/Labours/${Labour._id}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        alert("Labour deleted successfully!");  
+        navigate("/Labours"); 
+      } else {
+        alert("Failed to delete Labour.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
    
+  const handleUpdateLabourDetails = (Labour) => {
+    navigate("/EditLabourDetails", {
+        state:{
+            Labour:Labour
+        }
+    });
+  }
   return (
-    <div className="container mx-auto p-4 ">
-    <div className="overflow-x-auto ">
-      <table className="min-w-[70%] border-separate border-spacing-2 border border-gray-400  dark:border-gray-500 mx-auto ">
-        <caption className='caption-top border p-4 text-2xl bg-sky-600 text-white font-semibold '>{Labour.name} Details</caption>
-        <tbody>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold text-center ">Profile Photo</td>
-            <td className="border border-gray-300 dark:border-gray-700">
-              <img src={Labour.profilePhoto} alt="Profile" className="h-86 w-50 mx-auto text-center " />
-            </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Name</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.name}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700  px-5 py-4  font-semibold">Email</td>
-          
+    <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-2xl overflow-hidden p-6 border border-gray-200">
+    <div className="flex items-center space-x-4 mb-4">
+      <img
+        src={Labour.profilePhoto}
+        alt={Labour.name}
+        className="w-20 h-20 rounded-full border-2 border-gray-300"
+      />
+      <div>
+        <h2 className="text-xl font-bold text-gray-800">{Labour.name}</h2>
+        <p className="text-gray-600">{Labour.profession} ({Labour.expLevel})</p>
+        <p className="text-sm text-gray-500">{Labour.locationToWork}</p>
+      </div>
+    </div>
 
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4"><a href={`mailto:${Labour.email}`} className="text-blue-600 hover:underline">{Labour.email}</a></td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Date of Birth</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{new Date(Labour.DOB).toLocaleDateString()}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Gender</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.gender}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Phone Number</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.phoneNum}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">WhatsApp Number</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.whatsappNum}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Address</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.address}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Location to Work</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.locationToWork}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Profession</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.profession}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Experience Level</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.expLevel}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Years of Experience</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.YOE}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Availability</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.Availability}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Salary Type</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.salaryType}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Salary</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Labour.salary}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">ID Proof</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">
-              <a href={Labour.Idprof} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                View ID Proof
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Created At</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{new Date(Labour.createdAt).toLocaleString()}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Updated At</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{new Date(Labour.updatedAt).toLocaleString()}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="grid grid-cols-2 gap-4 text-gray-700">
+      <p><strong>Email:</strong> {Labour.email || "N/A"}</p>
+      <p><strong>Phone:</strong> {Labour.phoneNum}</p>
+      <p><strong>WhatsApp:</strong> {Labour.whatsappNum || "N/A"}</p>
+      <p><strong>Gender:</strong> {Labour.gender === "M" ? "Male" : Labour.gender === "F" ? "Female" : "Other"}</p>
+      <p><strong>Date of Birth:</strong> {new Date(Labour.DOB).toLocaleDateString()}</p>
+      <p><strong>Experience:</strong> {Labour.YOE} Years</p>
+      <p><strong>Availability:</strong> <span className={`px-2 py-1 rounded-lg text-white ${Labour.Availability === "Available" ? "bg-green-500" : "bg-red-500"}`}>{Labour.Availability}</span></p>
+      <p><strong>Salary:</strong> ₹{Labour.salary} / {Labour.salaryType}</p>
+    </div>
+
+    <div className="mt-4">
+      <h3 className="text-lg font-semibold text-gray-700">Address</h3>
+      <p className="text-gray-600">{Labour.address}</p>
+    </div>
+
+    <div className="flex justify-between mt-6">
+      <button onClick={() => {handleUpdateLabourDetails(Labour)}} className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">Update</button>
+      <button onClick={() => {handleDeleteLabour()}} className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600">Delete</button>
     </div>
   </div>
 

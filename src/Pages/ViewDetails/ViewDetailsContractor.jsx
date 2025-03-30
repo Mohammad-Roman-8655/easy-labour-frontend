@@ -1,95 +1,78 @@
 import React from 'react'
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 function ViewDetailsContractor() {
         const location = useLocation();
       const {Contractor} = location.state || {}; 
+      const navigate=useNavigate();
+      const handleDeleteContractor = async () => {
+        if (!window.confirm("Are you sure you want to delete this Contractor?")) return;
+      
+        try {
+          const response = await fetch(`http://localhost:3000/api/contractors/${Contractor._id}`, {
+            method: "DELETE",
+          });
+      
+          if (response.ok) {
+            alert("Contractor deleted successfully!");  
+            navigate("/Contractors"); 
+                
+          } else {
+            alert("Failed to delete Contractor.");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+
+      const handleUpdateContractorDetails = (Contractor) => {
+        navigate("/EditContractorDetails", {
+            state:{
+                Contractor:Contractor
+            }
+        });
+      }
       
   return (
-    <div className="container mx-auto p-4 ">
-    <div className="overflow-x-auto ">
-      <table className="min-w-[70%] border-separate border-spacing-2 border border-gray-400  dark:border-gray-500 mx-auto ">
-        <caption className='caption-top border p-4 text-2xl bg-sky-600 text-white font-semibold '>{Contractor.name} Details</caption>
-        <tbody>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold text-center ">Profile Photo</td>
-            <td className="border border-gray-300 dark:border-gray-700">
-              <img src={Contractor.profilePhoto} alt="Profile" className="h-86 w-50 mx-auto text-center " />
-            </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Name</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.name}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700  px-5 py-4  font-semibold">Email</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4"><a href={`mailto:${Contractor.email}`} className="text-blue-600 hover:underline">{Contractor.email}</a></td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Date of Birth</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{new Date(Contractor.DOB).toLocaleDateString()}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Gender</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.Gender}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Phone Number</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.pnoneNum}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">WhatsApp Number</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.whatsappNum}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Address</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.Address}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Location to Work</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.loactionToWork}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Profession</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.profession}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Experience Level</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.expLevel}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Years of Experience</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.YOE}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Availability</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Contractor.Availability}</td>
-          </tr>
-         
-         
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">ID Proof</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">
-              <a href={Contractor.Idprof} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                View ID Proof
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Created At</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{new Date(Contractor.createdAt).toLocaleString()}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Updated At</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{new Date(Contractor.updatedAt).toLocaleString()}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Previous Work Photo</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4"> 
-            <img src={Contractor.prevousWorkPhoto} alt="Previous-work-photo" className="h-86 w-50 mx-auto text-center " />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden my-10 p-6 border border-gray-200">
+    <div className="flex flex-col items-center md:flex-row md:items-start md:space-x-6">
+      <img
+        className="w-32 h-32 object-cover rounded-full border-4 border-blue-500"
+        src={Contractor.profilePhoto}
+        alt="Contractor Profile"
+      />
+      <div className="mt-4 md:mt-0">
+        <h2 className="text-2xl font-bold text-gray-800">{Contractor.name}</h2>
+        <p className="text-gray-600">{Contractor.profession} - {Contractor.expLevel}</p>
+        <p className="text-gray-500">{Contractor.YOE} Years of Experience</p>
+        <span
+          className={`px-4 py-1 rounded-full text-white text-sm font-semibold mt-2 inline-block ${Contractor.Availability === "Available" ? "bg-green-500" : "bg-red-500"}`}
+        >
+          {Contractor.Availability}
+        </span>
+      </div>
+    </div>
+    <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <p className="text-gray-700"><span className="font-semibold">Email:</span> {Contractor.email}</p>
+        <p className="text-gray-700"><span className="font-semibold">Phone:</span> {Contractor.pnoneNum}</p>
+        <p className="text-gray-700"><span className="font-semibold">WhatsApp:</span> {Contractor.whatsappNum || "N/A"}</p>
+      </div>
+      <div>
+        <p className="text-gray-700"><span className="font-semibold">Location to Work:</span> {Contractor.loactionToWork}</p>
+        <p className="text-gray-700"><span className="font-semibold">Address:</span> {Contractor.Address}</p>
+        <p className="text-gray-700"><span className="font-semibold">Gender:</span> {Contractor.Gender}</p>
+      </div>
+    </div>
+    <div className="mt-6">
+      <h3 className="text-lg font-semibold text-gray-800">Documents & Previous Work</h3>
+      <div className="flex space-x-4 mt-3">
+        <img className="w-24 h-24 object-cover rounded-lg border border-gray-300" src={Contractor.prevousWorkPhoto} alt="Previous Work" />
+        <img className="w-24 h-24 object-cover rounded-lg border border-gray-300" src={Contractor.Idprof} alt="ID Proof" />
+      </div>
+    </div>
+    <div className="mt-6 flex justify-between">
+      <button onClick={() => {handleUpdateContractorDetails(Contractor)}}  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Update</button>
+      <button onClick={() => {handleDeleteContractor()}} className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete</button>
     </div>
   </div>
   )

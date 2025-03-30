@@ -1,80 +1,101 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function AddCompany() {  //companyName founderName foundedYear companyLogo address phone email website description createdBy
-    const [formData, setFormData] = useState({
-      companyName: '',
-      founderName: '',
-      foundedYear: '',
+function AddCompany() {  
+    const [newCompany, setNewCompany] = useState({
+        companyName: '',
+        founderName: '',
+        foundedYear: '',
         phone: '',
         email: '',
         address: '',
         description: '',
         website: '',
         companyLogo: '',
-        agreement: false,
+        createdBy: '65efbcd98723456789abcd01'
       });
     
       const handleChange = (e) => {
         const { name, value, type, checked, files } = e.target;
-        setFormData({
-          ...formData,
+        setNewCompany({
+          ...newCompany,
           [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value,
         });
       };
-    
+
+      const navigate=useNavigate();
+      const handleAddCompany = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/api/companies", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newCompany),
+          });
+      
+          if (response.ok) {
+            alert("Company added successfully!");
+            navigate("/Company") // Refresh the list
+          } else {
+            alert("Failed to add Company.");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
       const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        handleAddCompany();
       };
     
       return (
         <div className="max-w-4xl mx-auto p-5 bg-gray-100 rounded-lg shadow-lg my-20">
-          <h1 className="text-3xl font-bold text-white p-4 rounded-xl mb-6 bg-blue-600">Contractor Registration Form</h1>
+          <h1 className="text-3xl font-bold text-white p-4 rounded-xl mb-6 bg-blue-600 text-center">Contractor Registration Form</h1>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <input
                 type="text"
                 name="companyName"
                 placeholder="Full Company Name"
-                value={formData.companyName}
+                value={newCompany.companyName}
                 onChange={handleChange}
-                className="p-3 border rounded-lg w-full"
+                className="p-3 border hover:border-black rounded-lg w-full"
                 required
               />
               <input
                 type="text"
                 name="founderName"
                 placeholder='Founder Name'
-                value={formData.founderName}
+                value={newCompany.founderName}
                 onChange={handleChange}
-                className="p-3 border rounded-lg w-full"
+                className="p-3 border hover:border-black rounded-lg w-full"
                 required
               />
               <input
                 type="number"
                 name="foundedYear"
-                placeholder="Contact Number"
-                value={formData.foundedYear}
+                placeholder="Founded Year"
+                value={newCompany.foundedYear}
                 onChange={handleChange}
-                className="p-3 border rounded-lg w-full"
+                className="p-3 border hover:border-black rounded-lg w-full"
                 required
               />
               <input
                 type="text"
                 name="phone"
                 placeholder="WhatsApp Number"
-                value={formData.phone}
+                value={newCompany.phone}
                 onChange={handleChange}
-                className="p-3 border rounded-lg w-full"
+                className="p-3 border hover:border-black rounded-lg w-full"
               />
               <input
                 type="email"
                 name="email"
                 placeholder="Email Address"
-                value={formData.email}
+                value={newCompany.email}
                 onChange={handleChange}
-                className="p-3 border rounded-lg w-full"
+                className="p-3 border hover:border-black rounded-lg w-full"
                 required
               />
             </div>
@@ -82,53 +103,42 @@ function AddCompany() {  //companyName founderName foundedYear companyLogo addre
               type="text"
               name="website"
               placeholder="Enter Website URL"
-              value={formData.website}
+              value={newCompany.website}
               onChange={handleChange}
-              className="p-3 border rounded-lg w-full"
+              className="p-3 border hover:border-black rounded-lg w-full"
               required
             />
             <textarea
               name="address"
               placeholder="Address"
-              value={formData.address}
+              value={newCompany.address}
               onChange={handleChange}
-              className="p-3 border rounded-lg w-full"
+              className="p-3 border hover:border-black rounded-lg w-full"
               required
             />
              <textarea
               name="description"
               placeholder="description"
-              value={formData.description}
+              value={newCompany.description}
               onChange={handleChange}
-              className="p-3 border rounded-lg w-full"
+              className="p-3 border hover:border-black rounded-lg w-full"
               required
             />
-            
+
             <div className="space-y-3">
               <div>
                 <label className="block text-sm font-medium">Upload Company Logo</label>
                 <input
-                  type="file"
+                  type="text"
                   name="companyLogo"
+                  value={newCompany.companyLogo}
                   onChange={handleChange}
-                  className="block w-full text-sm text-gray-500 border rounded-lg"
+                  placeholder='Enter Company Logo link'
+                  className="p-3 border hover:border-black rounded-lg w-full"
+                  required
                 />
               </div>
               
-            </div>
-    
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                name="agreement"
-                checked={formData.agreement}
-                onChange={handleChange}
-                className="mr-2"
-                required
-              />
-              <label className="text-sm">
-                I agree to add my profile on the Easy Labour website.
-              </label>
             </div>
     
             <button

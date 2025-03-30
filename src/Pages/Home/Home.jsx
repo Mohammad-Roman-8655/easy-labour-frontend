@@ -67,7 +67,7 @@ function Home() {
    <>
    <NavBarMain/>
    <div>
-  <div className='flex flex-col lg:flex-row justify-around w-full items-center my-10 gap-5 lg:gap-0'>
+  <div className='flex flex-col lg:flex-row justify-around w-full items-center my-0 gap-5 lg:gap-0'>
     <div className='w-full lg:w-1/2 p-5 lg:p-20'>
       <h1 className='text-2xl lg:text-4xl font-bold text-blue-500 mb-5 lg:mb-10'>
         Connecting daily wage workers <br className='hidden lg:block' /> with construction companies
@@ -86,7 +86,10 @@ function Home() {
           <i className="fa-solid fa-user mr-1"></i>Contractors
         </NavLink>
         <NavLink className="w-full sm:w-1/3 text-lg lg:text-xl font-semibold p-2 text-center rounded-lg border-2 border-black text-white bg-blue-500 hover:underline" to="/RentalEquipments">
-          <i className="fa-solid fa-user mr-1"></i>Shops
+        <i className="fa-solid fa-shop mr-1"></i>Shops
+        </NavLink>
+        <NavLink className="w-full sm:w-1/3 text-lg lg:text-xl font-semibold p-2 text-center rounded-lg border-2 border-black text-white bg-blue-500 hover:underline" to="/Company">
+        <i className="fa-solid fa-building mr-1"></i>Companies
         </NavLink>
       </div>
     </div>

@@ -14,15 +14,23 @@ import AddJobs from "./Pages/AddProfile/AddJobs"
 import AddLabour from "./Pages/AddProfile/AddLabour"
 import AddContractor from "./Pages/AddProfile/AddContractor"
 import AddEquipments from "./Pages/AddProfile/AddEquipments"
-import AddCompany from "./Pages/AddProfile/AddCompany";
+import AddCompany from "./Pages/AddProfile/AddCompany"
+import ViewDetailsCompany from "./Pages/ViewDetails/ViewDetailsCompany";
+import ViewDetailsContractor from "./Pages/ViewDetails/ViewDetailsContractor"
+import ViewDetailsLabour from "./Pages/ViewDetails/ViewDetailsLabour"
+import ViewDetailsShops from "./Pages/ViewDetails/ViewDetailsShops"
+import EditCompanyDetails from "./Pages/Edit Forms/EditCompanyDetails";
+import EditContractorDetails from "./Pages/Edit Forms/EditContractorDetails";
+import EditJobDetails from "./Pages/Edit Forms/EditJobDetails";
+import EditLabourDetails from "./Pages/Edit Forms/EditLabourDetails";
+import EditShopDetails from "./Pages/Edit Forms/EditShopDetails";
+import EditReviewDetails from "./Pages/Edit Forms/EditReviewDetails";
+import Company from "./Pages/Company/Company"
 import Job from "./Pages/Job/Job"
 import ApplyJob from "./Pages/Apply Job/ApplyJob"
 import Contractor from "./Pages/Contractor/Contractor"
-import ViewDetailsContractor from "./Pages/ViewDetails/ViewDetailsContractor"
 import Labour from "./Pages/Labour/Labour"
-import ViewDetailsLabour from "./Pages/ViewDetails/ViewDetailsLabour"
 import RentalEquipment from "./Pages/Rental Equipment/RentalEquipment"
-import ViewDetailsShops from "./Pages/ViewDetails/ViewDetailsShops"
 import Reviews from "./Pages/Reviews/Reviews"
 import Media from "./Pages/Media/Media"
 import Business from "./Pages/Business/Business"
@@ -58,10 +66,18 @@ function App() {
     <Route path="/ApplyJob" element={<ApplyJob/>}/>
     <Route path="/Labours" element={<Labour/>}/>
     <Route path="/ViewDetailsLabour" element={<ViewDetailsLabour/>}/>
-    <Route path="/Contractors" element={<Contractor/>}/>
     <Route path="/ViewDetailsContractor" element={<ViewDetailsContractor/>}/>
-    <Route path="/RentalEquipments" element={<RentalEquipment/>}/>
     <Route path="/ViewDetailsShops" element={<ViewDetailsShops/>} />
+    <Route path="/ViewDetailsCompany" element={<ViewDetailsCompany/>} />
+    <Route path="/EditCompanyDetails" element={<EditCompanyDetails/>} />
+    <Route path="/EditContractorDetails" element={<EditContractorDetails/>} />
+    <Route path="/EditJobDetails" element={<EditJobDetails/>} />
+    <Route path="/EditLabourDetails" element={<EditLabourDetails/>} />
+    <Route path="/EditShopDetails" element={<EditShopDetails/>} />
+    <Route path="/EditReviewDetails" element={<EditReviewDetails/>} />
+    <Route path="/Contractors" element={<Contractor/>}/>
+    <Route path="/RentalEquipments" element={<RentalEquipment/>}/>
+    <Route path="/Company" element={<Company/>}/>
     <Route path="/Reviews" element={<Reviews/>}/>
     <Route path="/Media" element={<Media/>}/>
     <Route path="/Business" element={<Business/>}/>

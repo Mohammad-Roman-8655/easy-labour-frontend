@@ -1,37 +1,56 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AddContractor() {
-    const [formData, setFormData] = useState({
+    const [newContractor, setNewContractor] = useState({
         name: '',
-        dateOfBirth: '',
-        gender: '',
-        contactNumber: '',
-        whatsappNumber: '',
+        DOB: '',
+        Gender: '',
+        pnoneNum: '',
+        whatsappNum: '',
         email: '',
-        address: '',
-        preferredLocation: '',
+        Address: '',
+        loactionToWork: '',
         profession: '',
-        experienceLevel: '',
-        yearsOfExperience: '',
-        availability: '',
-        photo: null,
-        workPhotos: null,
-        idProof: null,
-        agreement: false,
+        expLevel: '',
+        YOE: '',
+        Availability: '',
+        profilePhoto: '',
+        prevousWorkPhoto: '',
+        Idprof: '',
+        createdBy: '65efbcd98723456789abcd01'
       });
+     
     
-      const handleChange = (e) => {
-        const { name, value, type, checked, files } = e.target;
-        setFormData({
-          ...formData,
-          [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value,
-        });
+      const handleInputChange = (e) => {
+        setNewContractor({ ...newContractor, [e.target.name]: e.target.value });
       };
-    
+
+      const navigate=useNavigate();
+      const handleAddContractor = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/api/contractors", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newContractor),
+          });
+      
+          if (response.ok) {
+            alert("Contractor added successfully!");
+            navigate("/Contractors") // Refresh the list
+          } else {
+            alert("Failed to add Contractor.");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
       const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        handleAddContractor();
+        console.log(newContractor);
       };
     
       return (
@@ -43,23 +62,23 @@ function AddContractor() {
                 type="text"
                 name="name"
                 placeholder="Full Name"
-                value={formData.name}
-                onChange={handleChange}
+                value={newContractor.name}
+                onChange={handleInputChange}
                 className="p-3 border rounded-lg w-full"
                 required
               />
               <input
                 type="date"
-                name="dateOfBirth"
-                value={formData.dateOfBirth}
-                onChange={handleChange}
+                name="DOB"
+                value={newContractor.DOB}
+                onChange={handleInputChange}
                 className="p-3 border rounded-lg w-full"
                 required
               />
               <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
+                name="Gender"
+                value={newContractor.Gender}
+                onChange={handleInputChange}
                 className="p-3 border rounded-lg w-full"
                 required
               >
@@ -70,55 +89,55 @@ function AddContractor() {
               </select>
               <input
                 type="text"
-                name="contactNumber"
+                name="pnoneNum"
                 placeholder="Contact Number"
-                value={formData.contactNumber}
-                onChange={handleChange}
+                value={newContractor.pnoneNum}
+                onChange={handleInputChange}
                 className="p-3 border rounded-lg w-full"
                 required
               />
               <input
                 type="text"
-                name="whatsappNumber"
+                name="whatsappNum"
                 placeholder="WhatsApp Number"
-                value={formData.whatsappNumber}
-                onChange={handleChange}
+                value={newContractor.whatsappNum}
+                onChange={handleInputChange}
                 className="p-3 border rounded-lg w-full"
               />
               <input
                 type="email"
                 name="email"
                 placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
+                value={newContractor.email}
+                onChange={handleInputChange}
                 className="p-3 border rounded-lg w-full"
                 required
               />
             </div>
     
             <textarea
-              name="address"
+              name="Address"
               placeholder="Address"
-              value={formData.address}
-              onChange={handleChange}
+              value={newContractor.Address}
+              onChange={handleInputChange}
               className="p-3 border rounded-lg w-full"
               required
             />
     
             <input
               type="text"
-              name="preferredLocation"
+              name="loactionToWork"
               placeholder="Preferred Location to Work"
-              value={formData.preferredLocation}
-              onChange={handleChange}
+              value={newContractor.loactionToWork}
+              onChange={handleInputChange}
               className="p-3 border rounded-lg w-full"
               required
             />
     
             <select
               name="profession"
-              value={formData.profession}
-              onChange={handleChange}
+              value={newContractor.profession}
+              onChange={handleInputChange}
               className="p-3 border rounded-lg w-full"
               required
             >
@@ -131,9 +150,9 @@ function AddContractor() {
     
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <select
-                name="experienceLevel"
-                value={formData.experienceLevel}
-                onChange={handleChange}
+                name="expLevel"
+                value={newContractor.expLevel}
+                onChange={handleInputChange}
                 className="p-3 border rounded-lg w-full"
                 required
               >
@@ -144,19 +163,19 @@ function AddContractor() {
               </select>
               <input
                 type="number"
-                name="yearsOfExperience"
+                name="YOE"
                 placeholder="Years of Experience"
-                value={formData.yearsOfExperience}
-                onChange={handleChange}
+                value={newContractor.YOE}
+                onChange={handleInputChange}
                 className="p-3 border rounded-lg w-full"
                 required
               />
             </div>
     
             <select
-              name="availability"
-              value={formData.availability}
-              onChange={handleChange}
+              name="Availability"
+              value={newContractor.Availability}
+              onChange={handleInputChange}
               className="p-3 border rounded-lg w-full"
               required
             >
@@ -167,47 +186,39 @@ function AddContractor() {
     
             <div className="space-y-3">
               <div>
-                <label className="block text-sm font-medium">Upload Profile Photo</label>
+                <label className="block text-sm font-medium mb-3 mr-10">Upload Profile Photo</label>
                 <input
-                  type="file"
-                  name="photo"
-                  onChange={handleChange}
-                  className="block w-full text-sm text-gray-500 border rounded-lg"
+                  type="text"
+                  name="profilePhoto"
+                  placeholder='Enter Profile Photo link'
+                  value={newContractor.profilePhoto}
+                  onChange={handleInputChange}
+                  className="p-3 border rounded-lg w-full "
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">Upload Previous Work Photos</label>
+                <label className="block text-sm font-medium mb-3 mr-10">Upload Previous Work Photos</label>
                 <input
-                  type="file"
-                  name="workPhotos"
-                  onChange={handleChange}
-                  className="block w-full text-sm text-gray-500 border rounded-lg"
+                  type="text"
+                  name="prevousWorkPhoto"
+                   placeholder='Enter Previous work Photo link'
+                  value={newContractor.prevousWorkPhoto}
+                  onChange={handleInputChange}
+                  className="p-3 border rounded-lg w-full "
                   multiple
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">Upload ID Proof</label>
+                <label className="block text-sm font-medium mb-3 mr-10">Upload ID Proof</label>
                 <input
-                  type="file"
-                  name="idProof"
-                  onChange={handleChange}
-                  className="block w-full text-sm text-gray-500 border rounded-lg"
+                  type="text"
+                  name="Idprof"
+                   placeholder='Enter Id Prof link'
+                  value={newContractor.Idprof}
+                  onChange={handleInputChange}
+                  className="p-3 border rounded-lg w-full "
                 />
               </div>
-            </div>
-    
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                name="agreement"
-                checked={formData.agreement}
-                onChange={handleChange}
-                className="mr-2"
-                required
-              />
-              <label className="text-sm">
-                I agree to add my profile on the Easy Labour website.
-              </label>
             </div>
     
             <button
