@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function AddContractor() {
@@ -52,6 +52,19 @@ function AddContractor() {
         handleAddContractor();
         console.log(newContractor);
       };
+      const [ContractorTypes,setContractorTypes]=useState([]);
+      
+            const fetchContractorTypes = async () => {
+              const response = await fetch("http://localhost:3000/api/ContractorType");
+              const data = await response.json();
+              setContractorTypes(data);
+              
+            }
+      
+            useEffect(() => {
+              fetchContractorTypes();
+              
+            },[]);
     
       return (
         <div className="max-w-4xl mx-auto p-5 bg-gray-100 rounded-lg shadow-lg my-20">
@@ -142,10 +155,9 @@ function AddContractor() {
               required
             >
               <option value="">Select Profession</option>
-              <option value="Contractor of Construction">Contractor of Construction</option>
-              <option value="Contractor of Labour">Contractor of Labour</option>
-              <option value="Contractor of Plumber">Contractor of Plumber</option>
-              <option value="Contractor of Electrician">Contractor of Electrician</option>
+              {ContractorTypes.map((ContractorType,idx) => (
+                                <option key={idx} value={ContractorType.contractorType}>  {ContractorType.contractorType} </option>
+                              ))} 
             </select>
     
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

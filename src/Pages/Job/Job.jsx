@@ -1,133 +1,180 @@
-import React from 'react'
-import { NavLink,useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Job() {
+  const [Jobs, setJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]); // To store filtered jobs
+  const [Companies, setCompanies] = useState([]);
+  const [LabourTypes, setLabourTypes] = useState([]);
 
-  const [Jobs,setJobs]=useState([]);
+  const [selectedCompany, setSelectedCompany] = useState(""); // Store selected company
+  const [selectedLabourType, setSelectedLabourType] = useState(""); // Store selected job type
 
-  const fetchJobs= async () => {
-          try {
+  // Fetch Jobs
+  const fetchJobs = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/jobs");
+      const data = await response.json();
+      setJobs(data);
+      setFilteredJobs(data); // Initialize filtered jobs with all jobs
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-            const response= await fetch('http://localhost:3000/api/jobs');
-            const data= await response.json();
-            setJobs(data);
-            
-          } catch (error) {
-            console.error("Error:", error);
-          }
-  }
+  // Fetch Companies
+  const fetchCompanies = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/Companies");
+      const data = await response.json();
+      setCompanies(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  // Fetch Labour Types
+  const fetchLabourTypes = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/LabourType");
+      const data = await response.json();
+      setLabourTypes(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   useEffect(() => {
+    fetchLabourTypes();
+    fetchCompanies();
     fetchJobs();
-  },[]);
-  const navigate=useNavigate();
+  }, []);
+
+  const navigate = useNavigate();
+
+  // Handle Apply Button
   const handleApply = (idx) => {
-    // console.log(Jobs[idx])
     navigate("/ApplyJob", {
       state: {
-         Job:Jobs[idx]
+        Job: filteredJobs[idx],
       },
     });
   };
 
+  // Filter Jobs when selection changes
+  useEffect(() => {
+    let filtered = Jobs;
+
+    if (selectedCompany) {
+      filtered = filtered.filter((job) => job.companyName === selectedCompany);
+    }
+
+    if (selectedLabourType) {
+      filtered = filtered.filter((job) => job.vacancyType   === selectedLabourType);
+    }
+
+    setFilteredJobs(filtered);
+  }, [selectedCompany, selectedLabourType, Jobs]);
+
   return (
-   
-    <div>
-      <div className='w-full'>
+    <div className="w-full">
       <div className="flex flex-wrap justify-around items-center w-full p-5 bg-blue-500">
-      <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
-        <select
-          className="w-full p-2 border-2 hover:border-black rounded-xl"
-          id="category"
-        >
-          <option value="">Select Company : </option>
-          <option value="">Ad Construction Pvt Ltd.</option>
-          <option value="">Viraj Cosntrcution Pvt Ltd</option>
-          <option value="">Ad Construction Pvt Ltd.</option>
-          <option value="">Viraj Cosntrcution Pvt Ltd</option>
-        </select>
-      </div>
-      <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
-       
-        <select
-          className="w-full p-2 border-2 hover:border-black rounded-xl"
-          id="type"
-        >
-          <option value="">Select Job Type:</option>
-          <option value="">Labour</option>
-          <option value="">Carpenter</option>
-          <option value="">Welder</option>
-          <option value="">Electrision</option>
-          <option value="">Engineer</option>
-          <option value="">Contractor</option>
-          <option value="">Manager</option>
-          <option value="">Instructor</option>
-       
-        </select>
-      </div>
-      <div className="w-[100%] sm:w-auto lg:w-1/3 h-11   flex justify-center items-center">
-        <button
-          className="lg:w-[30%] md:w-[30%] sm:w-auto p-2 px-5 text-black bg-white font-bold mx-10 border-2 border-black rounded-md"
-        >
-          Search
-        </button>
-        <div className='w-[50%]'>
-          <NavLink className='w-[100%] p-2 px-5 text-black bg-white font-bold mx-10 border-2 border-black rounded-md' to="/AddJobs">Add Jobs</NavLink >
+        {/* Company Dropdown */}
+        <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
+          <select
+            className="w-full p-2 border-2 hover:border-black rounded-xl"
+            id="category"
+            value={selectedCompany}
+            onChange={(e) => setSelectedCompany(e.target.value)}
+          >
+            <option value="">Select Company:</option>
+            {Companies.map((Company, idx) => (
+              <option key={idx} value={Company.companyName}>
+                {Company.companyName}
+              </option>
+            ))}
+          </select>
         </div>
 
+        {/* Job Type Dropdown */}
+        <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
+          <select
+            className="w-full p-2 border-2 hover:border-black rounded-xl"
+            id="type"
+            value={selectedLabourType}
+            onChange={(e) => setSelectedLabourType(e.target.value)}
+          >
+            <option value="">Select Job Type:</option>
+            {LabourTypes.map((LabourType, idx) => (
+              <option key={idx} value={LabourType.labourType}>
+                {LabourType.labourType}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <button onClick={() => {fetchJobs(),setSelectedCompany(''),setSelectedLabourType('')}} className="text-black bg-white font-semibold border-2 px-4 py-2 hover:border-black rounded-lg">Remove Filter</button>
+        </div>
       </div>
-     
-    </div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mx-auto w-full p-5">
-      {Jobs.map((Job, idx) => (
-        <div key={idx} className="w-full border-2 rounded-lg overflow-hidden">
-          <img
-            className="w-full h-48 object-cover"
-            src={Job.companyLogo}
-            alt={Job.companyName}
-          />
-          <div className="flex flex-col p-3">
-            <h1 className="text-xl font-semibold">{Job.companyName}</h1>
-            <p className="font-normal">Vacancy : {Job.vacancies}</p>
-            <p className="font-normal">Type : {Job.companyName}</p>
-            <p className="font-normal">Salary : {Job.salary} /day</p>
-            <p className="font-normal">
-               Email : <a href={`mailto:${Job.email}`} className="text-blue-600 hover:underline">{Job.email}</a>
-            </p>
 
+      {/* Job List */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mx-auto w-full p-5">
+        {filteredJobs.map((Job, idx) => (
+          <div key={idx} className="w-full border-2 rounded-lg overflow-hidden">
+            <img
+              className="w-full h-48 object-cover"
+              src={Job.companyLogo}
+              alt={Job.companyName}
+            />
+            <div className="flex flex-col p-3">
+              <h1 className="text-xl font-semibold">{Job.companyName}</h1>
+              <p className="font-normal">Vacancy : {Job.vacancies}</p>
+              <p className="font-normal">Type : {Job.jobType}</p>
+              <p className="font-normal">Salary : {Job.salary} /day</p>
+              <p className="font-normal">
+                Email :{" "}
+                <a
+                  href={`mailto:${Job.email}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {Job.email}
+                </a>
+              </p>
 
-            <p className="font-light mb-3"><i className="fa-solid fa-location-dot"></i> {Job.address}</p>
-            <div className="flex items-center justify-between">
-              <button
-                className="w-2/3 border-2 bg-blue-500 text-white font-semibold p-1 rounded-3xl text-center"
-                onClick={() => {handleApply(idx)}}
-              >
-                Apply Now 
-              </button>
-              <a
-                 className="font-bold text-blue-600 text-2xl"
-                href={`tel:+91${Job.contactNumber}`} // Removed the space after +91
-               >
-              <i className="fa-solid fa-phone"></i>
-              </a>
+              <p className="font-light mb-3">
+                <i className="fa-solid fa-location-dot"></i> {Job.address}
+              </p>
+              <div className="flex items-center justify-between">
+                <button
+                  className="w-2/3 border-2 bg-blue-500 text-white font-semibold p-1 rounded-3xl text-center"
+                  onClick={() => handleApply(idx)}
+                >
+                  Apply Now
+                </button>
+                <a
+                  className="font-bold text-blue-600 text-2xl"
+                  href={`tel:+91${Job.contactNumber}`}
+                >
+                  <i className="fa-solid fa-phone"></i>
+                </a>
 
-              <a
-                className="font-bold text-green-400 text-3xl"
-                href={`https://wa.me/${Job.whatsappNumber}`}
-              >
-                <i className="fa-brands fa-whatsapp"></i>
-              </a>
+                <a
+                  className="font-bold text-green-400 text-3xl"
+                  href={`https://wa.me/${Job.whatsappNumber}`}
+                >
+                  <i className="fa-brands fa-whatsapp"></i>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-
+        ))}
       </div>
+
+      {filteredJobs.length === 0 && (
+        <p className="text-center text-gray-500">No jobs found</p>
+      )}
     </div>
-  )
+  );
 }
 
-export default Job
+export default Job;

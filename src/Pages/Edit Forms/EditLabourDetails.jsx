@@ -36,9 +36,18 @@ function EditLabourDetails() {
                 e.preventDefault();
                 handleUpdateLabour();
               };
-        
+              const [LabourTypes,setLabourTypes]=useState([]);
+            
+                  const fetchLabourTypes = async () => {
+                    const response = await fetch("http://localhost:3000/api/LabourType");
+                    const data = await response.json();
+                    setLabourTypes(data);
+                    
+                  }
+            
               useEffect(() => {
                 setEditingLabour(Labour);
+                fetchLabourTypes();
               },[]);
   return (   
     <div className="w-full max-w-4xl mx-auto p-5 bg-white rounded-lg shadow-lg my-20 border-2">
@@ -59,9 +68,10 @@ function EditLabourDetails() {
         <input type="text" name="locationToWork" onChange={handleEditInputChange}  value={editingLabour?.locationToWork || ''} placeholder="Preferred Work Location" required className="w-full border rounded-md p-2" />
         <select name="profession" onChange={handleEditInputChange}  value={editingLabour?.profession || ''} required className="w-full border rounded-md p-2">
             <option value="" disabled>Select Profession</option>
-            <option value="Construction Labour">Construction Labour</option>
-            <option value="Plumber">Plumber</option>
-            <option value="Electrician">Electrician</option>
+                    {
+                            LabourTypes.map((LabourType,idx) => (
+                                <option key={idx} value={LabourType.labourType}>  {LabourType.labourType} </option>
+                              ))}  
         </select>
         <select name="expLevel"  onChange={handleEditInputChange}  value={editingLabour?.expLevel || ''} required className="w-full border rounded-md p-2">
             <option value="" disabled>Select Experience Level</option>

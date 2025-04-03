@@ -6,12 +6,9 @@ function Labour() {
   const [Labours,setLabours]=useState([]);
   const fetchLabours = async () => {
     try {
-  
       const response =await fetch('http://localhost:3000/api/labours');
       const data=await response.json();
-      console.log(data);
       setLabours(data);
-      
     } catch (error) {
        console.error("Error : ",error);
     }

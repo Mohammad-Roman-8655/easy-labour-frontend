@@ -3,14 +3,7 @@ import { NavLink,useNavigate} from 'react-router-dom'
 import { useState,useEffect } from 'react'
 function RentalEquipment() {
   const [Shops,setShops]=useState([]);
-  function formatShopTiming(openTime, closeTime) {
-    const options = { hour: 'numeric', minute: '2-digit', hour12: true };
-
-    const openFormatted = new Date(openTime).toLocaleTimeString('en-US', options);
-    const closeFormatted = new Date(closeTime).toLocaleTimeString('en-US', options);
-
-    return `Open: ${openFormatted} to ${closeFormatted}`;
-}
+ 
   const fetchShops = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/shops');
@@ -92,7 +85,7 @@ function RentalEquipment() {
           />
           <div className="flex flex-col p-3">
             <h1 className="text-xl font-semibold">{Shop.shopName}</h1>
-            <p className="font-normal">{formatShopTiming(Shop.openTime,Shop.closeTime)}</p>
+            <p className="font-normal">{Shop.openTime} to {Shop.closeTime}</p>
             <p className="font-light mb-3"><i className="fa-solid fa-location-dot"></i> {Shop.address}</p>
             <div className="flex items-center justify-between">
               <button

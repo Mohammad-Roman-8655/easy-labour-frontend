@@ -38,8 +38,19 @@ function EditContractorDetails() {
             e.preventDefault();
             handleUpdateContractor();
           };
+           const [ContractorTypes,setContractorTypes]=useState([]);
+                
+                      const fetchContractorTypes = async () => {
+                        const response = await fetch("http://localhost:3000/api/ContractorType");
+                        const data = await response.json();
+                        setContractorTypes(data);
+                        
+                      }
+                
+                     
     
           useEffect(() => {
+            fetchContractorTypes();
             setEditingContractor(Contractor);
           },[]);
   return (
@@ -131,10 +142,12 @@ function EditContractorDetails() {
         required
       >
         <option value="" disabled>Select Profession</option>
-        <option value="Contractor of Construction">Contractor of Construction</option>
-        <option value="Contractor of Labour">Contractor of Labour</option>
-        <option value="Contractor of Plumber">Contractor of Plumber</option>
-        <option value="Contractor of Electrician">Contractor of Electrician</option>
+        {
+        ContractorTypes.map((ContractorType,idx) => (
+               <option key={idx} value={ContractorType.contractorType}>  {ContractorType.contractorType} </option>
+                )
+              )
+       } 
       </select>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

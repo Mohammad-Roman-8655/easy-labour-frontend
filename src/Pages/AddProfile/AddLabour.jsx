@@ -52,6 +52,20 @@ function AddLabour() {
         handleAddLabour();
        
       };
+
+      const [LabourTypes,setLabourTypes]=useState([]);
+
+      const fetchLabourTypes = async () => {
+        const response = await fetch("http://localhost:3000/api/LabourType");
+        const data = await response.json();
+        setLabourTypes(data);
+        
+      }
+
+      useEffect(() => {
+        fetchLabourTypes();
+        
+      },[]);
       
     return (
         <div className="w-full max-w-4xl mx-auto p-5 bg-white rounded-lg shadow-lg my-20 border-2">
@@ -71,10 +85,10 @@ function AddLabour() {
                 <input type="text" name="address" value={newLabour.address}  onChange={handleInputChange} placeholder="Address" required className="w-full border rounded-md p-2" />
                 <input type="text" name="locationToWork" value={newLabour.locationToWork}  onChange={handleInputChange} placeholder="Preferred Work Location" required className="w-full border rounded-md p-2" />
                 <select name="profession" value={newLabour.profession}  onChange={handleInputChange} required className="w-full border rounded-md p-2">
-                    <option value="">Select Profession</option>
-                    <option value="Construction Labour">Construction Labour</option>
-                    <option value="Plumber">Plumber</option>
-                    <option value="Electrician">Electrician</option>
+                <option value="" disabled >Select Profession</option>
+                            {LabourTypes.map((LabourType,idx) => (
+                                <option key={idx} value={LabourType.labourType}>  {LabourType.labourType} </option>
+                              ))}           
                 </select>
                 <select name="expLevel" value={newLabour.expLevel}  onChange={handleInputChange} required className="w-full border rounded-md p-2">
                     <option value="">Select Experience Level</option>

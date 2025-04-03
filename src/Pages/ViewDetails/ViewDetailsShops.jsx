@@ -1,84 +1,67 @@
-import React from 'react'
-
-import { useLocation } from "react-router-dom";
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ViewDetailsShops() {
-      const location = useLocation();
-      const {Shop} = location.state || {}; 
-     
-      function formatShopTiming(openTime, closeTime) {
-        const options = { hour: 'numeric', minute: '2-digit', hour12: true };
-    
-        const openFormatted = new Date(openTime).toLocaleTimeString('en-US', options);
-        const closeFormatted = new Date(closeTime).toLocaleTimeString('en-US', options);
-    
-        return `Open: ${openFormatted} to ${closeFormatted}`;
-    }
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { Shop } = location.state || {};
+
+
+      const handleDeleteShop = async () => {
+        if (!window.confirm("Are you sure you want to delete this Shop?")) return;
+      
+        try {
+          const response = await fetch(`http://localhost:3000/api/Shops/${Shop._id}`, {
+            method: "DELETE",
+          });
+      
+          if (response.ok) {
+            alert("Shop deleted successfully!");  
+            navigate("/RentalEquipments"); 
+                
+          } else {
+            alert("Failed to delete Shop.");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+
+      const handleUpdateShopDetails = () => {
+        navigate("/EditShopDetails", {
+            state:{
+                Shop:Shop
+            }
+        });
+      }
+
   return (
-  
-        <div className="container mx-auto p-4 ">
-    <div className="overflow-x-auto ">
-      <table className="min-w-[70%] border-separate border-spacing-2 border border-gray-400  dark:border-gray-500 mx-auto ">
-        <caption className='caption-top border p-4 text-2xl bg-sky-600 text-white font-semibold '>{Shop.shopName} Details</caption>
-        <tbody>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold text-center ">Shop Photo</td>
-            <td className="border border-gray-300 dark:border-gray-700">
-              <img src={Shop.shopImage} alt={Shop.shopName} className="h-86 w-50 mx-auto text-center " />
-            </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Name</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Shop.shopName}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700  px-5 py-4  font-semibold">Email</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4"><a href={`mailto:${Shop.email}`} className="text-blue-600 hover:underline">{Shop.email}</a></td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Timing</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{formatShopTiming(Shop.openTime,Shop.closeTime)}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Opening Days</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Shop.daysOpen}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Phone Number</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Shop.phone}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">WhatsApp Number</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Shop.whatsapp}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Address</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Shop.address}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Description of shop :</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{Shop.description}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Website Link</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4"><a className="text-blue-600 hover:underline" href={Shop.orderLink}> Order Now</a></td>
-          </tr>
-        
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Created At</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{new Date(Shop.createdAt).toLocaleString()}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4  font-semibold">Updated At</td>
-            <td className="border border-gray-300 dark:border-gray-700 px-5 py-4">{new Date(Shop.updatedAt).toLocaleString()}</td>
-          </tr>
-        
-        </tbody>
-      </table>
+    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+      <h2 className="text-3xl font-bold text-center mb-6 bg-blue-700 text-white p-3 rounded-lg">{Shop.shopName} Details</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <img src={Shop.shopImage} alt={Shop.shopName} className="w-full h-64 object-cover rounded-lg shadow-md" />
+        <div className="space-y-4">
+          <p><strong>Name:</strong> {Shop.shopName}</p>
+          <p><strong>Email:</strong> <a href={`mailto:${Shop.email}`} className="text-blue-600 hover:underline">{Shop.email}</a></p>
+          <p><strong>Timing:</strong> {Shop.openTime} to {Shop.closeTime}</p>
+          <p><strong>Days Open:</strong> {Shop.daysOpen}</p>
+          <p><strong>Phone:</strong> {Shop.phone}</p>
+          <p><strong>WhatsApp:</strong> {Shop.whatsapp}</p>
+          <p><strong>Address:</strong> {Shop.address}</p>
+          <p><strong>Description:</strong> {Shop.description}</p>
+          <p><strong>Website:</strong> <a href={Shop.orderLink} className="text-blue-600 hover:underline">Order Now</a></p>
+          <p><strong>Created At:</strong> {new Date(Shop.createdAt).toLocaleString()}</p>
+          <p><strong>Updated At:</strong> {new Date(Shop.updatedAt).toLocaleString()}</p>
+        </div>
+      </div>
+      
+      <div className="flex justify-between mt-6">
+        <button onClick={handleUpdateShopDetails} className="bg-yellow-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-yellow-600">Update</button>
+        <button onClick={handleDeleteShop} className="bg-red-600 text-white px-6 py-2 rounded-md shadow-md hover:bg-red-700">Delete</button>
+      </div>
     </div>
-  </div>
-  
-  )
+  );
 }
 
-export default ViewDetailsShops
+export default ViewDetailsShops;
