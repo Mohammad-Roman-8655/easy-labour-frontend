@@ -1,5 +1,6 @@
 import React from 'react'
 import Faq from './Faq'
+import { useNavigate } from 'react-router-dom';
 
 function Contact() {
   const faqData = [
@@ -54,10 +55,13 @@ function Contact() {
       description: "We take data privacy seriously. All user information is stored securely and is not shared without consent."
     }
   ];
+
+  const navigate = useNavigate();
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Form submitted sucessfully.We will contact with you soon.")
+    alert("Form submitted sucessfully.We will contact with you soon.");
+    navigate("/");
   };
   return (
     <div>
