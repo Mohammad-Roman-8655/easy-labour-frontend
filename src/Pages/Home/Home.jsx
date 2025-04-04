@@ -3,66 +3,120 @@ import { NavLink,useNavigate } from 'react-router-dom'
 import { useState,useEffect } from 'react'
 
 import NavBarMain from '../../Components/NavBarComp/NavBarMain'
+import Faq from '../Contact/Faq'
 
 
 function Home() {
   const [Reviews,setReviews]=useState([]);
   const fetchReviews = async () => {
     try {
-        const response= await fetch("http://localhost:3000/api/reviews");
-        const data= await response.json();
-        setReviews(data);
+        const response = await fetch("http://localhost:3000/api/reviews");
+        const data = await response.json();
+        setReviews(data.slice(0, 10));  // Take only the first 6 reviews
     } catch (error) {
-       console.error("Error : ",error);
+        console.error("Error:", error);
     }
-  }
+};
+
   useEffect(() => {
     fetchReviews();
   },[]);
-  const data=[
-    {
-      message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
-      name:"Shyam Lal",
-      category:"Labour",
-      profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
+  // const data=[
+  //   {
+  //     message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
+  //     name:"Shyam Lal",
+  //     category:"Labour",
+  //     profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
 
+  //   },
+  //   {
+  //     message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
+  //     name:"Shyam Lal",
+  //     category:"Labour",
+  //     profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
+
+  //   },
+  //   {
+  //     message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
+  //     name:"Shyam Lal",
+  //     category:"Labour",
+  //     profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
+
+  //   },
+  //   {
+  //     message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
+  //     name:"Shyam Lal",
+  //     category:"Labour",
+  //     profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
+
+  //   },
+  //   {
+  //     message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
+  //     name:"Shyam Lal",
+  //     category:"Labour",
+  //     profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
+
+  //   },
+  //   {
+  //     message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
+  //     name:"Shyam Lal",
+  //     category:"Labour",
+  //     profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
+
+  //   },
+  // ]
+  const faqData = [
+    {
+      index: 1,
+      title: "What is EasyLabour?",
+      description: "EasyLabour is a platform that connects laborers, contractors, shopkeepers, equipment renters, and companies for construction and related services."
     },
     {
-      message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
-      name:"Shyam Lal",
-      category:"Labour",
-      profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
-
+      index: 2,
+      title: "How can I register as a labourer or contractor?",
+      description: "You can register by filling out the sign-up form on the website and selecting your role as Labourer or Contractor."
     },
     {
-      message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
-      name:"Shyam Lal",
-      category:"Labour",
-      profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
-
+      index: 3,
+      title: "Can I rent construction equipment through EasyLabour?",
+      description: "Yes, EasyLabour offers a dedicated Rental Equipment section where you can browse and contact rental providers."
     },
     {
-      message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
-      name:"Shyam Lal",
-      category:"Labour",
-      profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
-
+      index: 4,
+      title: "How do I find labourers in my area?",
+      description: "Use the location filters to select your state and district to view available labourers near you."
     },
     {
-      message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
-      name:"Shyam Lal",
-      category:"Labour",
-      profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
-
+      index: 5,
+      title: "Is there a way to connect with shopkeepers for construction materials?",
+      description: "Yes, EasyLabour includes a 'Connect Shopkeeper' feature to help you find material suppliers in your region."
     },
     {
-      message:"As a labourer, I've had a lot of luck finding work through Digital Labour Chowk. The app is user-friendly, and I've been able to connect with clients who need my skills. It's a great platform.",
-      name:"Shyam Lal",
-      category:"Labour",
-      profile:"https://res.cloudinary.com/dcxlcy6ls/image/upload/v1736836919/p5ngbdqm90ilrmjddzzf.jpg"
-
+      index: 6,
+      title: "Can companies post job opportunities?",
+      description: "Yes, companies can register and post job openings to hire laborers or contractors through the platform."
     },
-  ]
+    {
+      index: 7,
+      title: "Is there any cost for using EasyLabour?",
+      description: "Most of the services are free to use. Some premium features or highlighted listings may involve a small fee."
+    },
+    {
+      index: 8,
+      title: "How do I contact a service provider directly?",
+      description: "Each listing includes phone and WhatsApp icons to allow direct contact with the provider."
+    },
+    {
+      index: 9,
+      title: "Can I leave reviews for services?",
+      description: "Yes, registered users can leave reviews for shops, labourers, and other services they have used."
+    },
+    {
+      index: 10,
+      title: "How is my data protected on EasyLabour?",
+      description: "We take data privacy seriously. All user information is stored securely and is not shared without consent."
+    }
+  ];
   return (
    <>
    <NavBarMain/>
@@ -75,7 +129,7 @@ function Home() {
       <p className='mb-5 lg:mb-10 font-semibold'>
         Easy Labour connects companies with skilled and unskilled construction <br className='hidden lg:block' /> workers, streamlining hiring and offering workers better jobs and growth <br className='hidden lg:block' /> opportunities—empowering both businesses and laborers.
       </p>
-      <div className='w-full mb-5 lg:mb-10 flex flex-wrap gap-5 items-center'>
+      <div className=' w-full mb-5 lg:mb-10 flex flex-wrap gap-5 items-center'>
         <NavLink className="w-full sm:w-1/3 text-lg lg:text-xl font-semibold p-2 text-center rounded-lg border-2 border-black text-white bg-blue-500 hover:underline" to="/Jobs">
           <i className="fa-solid fa-briefcase mr-1"></i>Jobs
         </NavLink>
@@ -90,6 +144,10 @@ function Home() {
         </NavLink>
         <NavLink className="w-full sm:w-1/3 text-lg lg:text-xl font-semibold p-2 text-center rounded-lg border-2 border-black text-white bg-blue-500 hover:underline" to="/Company">
         <i className="fa-solid fa-building mr-1"></i>Companies
+        </NavLink>
+        
+        <NavLink className="w-full sm:w-1/3 text-lg lg:text-xl font-semibold p-2 text-center rounded-lg border-2 border-black text-white bg-blue-500 hover:underline" to="/Reviews">
+        <i className="fa-regular fa-comments mr-1"></i>Reviews
         </NavLink>
       </div>
     </div>
@@ -149,6 +207,7 @@ function Home() {
       {
   Reviews.map((Review, idx) => {
     return (
+      
       <div key={idx} className='mx-auto border-2 p-3 rounded-xl'>
         <p className='mb-3'>{Review.comment}</p>
         
@@ -177,6 +236,18 @@ function Home() {
       <NavLink className="text-lg lg:text-xl text-[#FF0078] text-center block mx-auto font-bold mt-5 lg:mt-11" to="/Reviews">READ MORE <i className="fa-solid fa-arrow-up-right-from-square ml-3"></i></NavLink>
     </div>
   </div>
+  <div className='w-[100%] my-10'>
+           <h1 className=' w-[65%] mx-auto  text-center  text-3xl font-bold text-blue-600 my-10'>Frequently Asked Question's</h1>
+         
+        <div className=''>
+          {faqData.map((item,index)=>{
+            const {title,description}=item;
+            return(
+              <Faq id={index} title={title} desc={description}/>
+            )
+          })}
+        </div>
+        </div>
 </div>
    
    </>

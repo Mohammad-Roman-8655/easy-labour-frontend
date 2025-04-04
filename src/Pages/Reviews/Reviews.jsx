@@ -17,41 +17,59 @@ function Reviews() {
       fetchReviews();
     },[]);
   return (
-    <div className='w-full my-5 bg-blue-50 p-5'>
-    <div className='w-full lg:w-4/5 p-5 mx-auto'>
-      <h1 className='text-2xl lg:text-4xl font-bold text-center mb-5 lg:mb-10 text-blue-500'>What People Say About Us</h1>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-5 lg:mb-10'>
-      {
-  Reviews.map((Review, idx) => {
-    return (
-      <div key={idx} className='mx-auto border-2 p-3 rounded-xl'>
-        <p className='mb-3'>{Review.comment}</p>
-        
-        {/* Star Rating Section */}
-        <div className="flex mb-2">
-          {[...Array(5)].map((_, i) => (
-            <span key={i} className={i < Review.rating ? 'text-yellow-500' : 'text-gray-300'}>
-              ★
-            </span>
-          ))}
-        </div>
-
-        <div className='flex gap-3 items-center'>
-          <img className='w-10 h-10 rounded-full' src={Review.reviewerImage} alt={Review.reviewerName} />
-          <div>
-            <h1 className='text-blue-600 font-semibold'>{Review.reviewerName}</h1>
-            <p>{Review.reviewerPosition}</p>
+    <div className="w-full my-5 bg-blue-50 px-4 py-8">
+    <div className="w-full lg:w-4/5 mx-auto">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-6 text-blue-500">
+        What People Say About Us
+      </h1>
+  
+      <div className="flex justify-end mb-6">
+        <NavLink
+          to="/AddReview"
+          className="text-white font-bold px-5 py-2 bg-blue-500 border-2 border-black rounded-md hover:underline text-sm sm:text-base"
+        >
+          Add Review
+        </NavLink>
+      </div>
+  
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Reviews.map((review, idx) => (
+          <div
+            key={idx}
+            className="w-full h-full border-2 p-5 rounded-xl shadow hover:shadow-lg transition duration-300 bg-white"
+          >
+            <p className="mb-4 text-gray-700">{review.comment}</p>
+  
+            {/* Star Rating */}
+            <div className="flex mb-3">
+              {[...Array(5)].map((_, i) => (
+                <span
+                  key={i}
+                  className={i < review.rating ? "text-yellow-500" : "text-gray-300"}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+  
+            {/* Reviewer Info */}
+            <div className="flex gap-3 items-center">
+              <img
+                className="w-12 h-12 rounded-full object-cover"
+                src={review.reviewerImage}
+                alt={review.reviewerName}
+              />
+              <div>
+                <h2 className="text-blue-600 font-semibold text-sm sm:text-base">{review.reviewerName}</h2>
+                <p className="text-xs sm:text-sm text-gray-600">{review.reviewerPosition}</p>
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
-    );
-  })
-}
-
-      </div>
-     
     </div>
   </div>
+  
   )
 }
 

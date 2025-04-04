@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function ApplyJob() {
   const location = useLocation();
+  const currentUser = localStorage.getItem("currentUser");
   const navigate = useNavigate();
   const { Job } = location.state || {}; // Ensure Job exists to prevent errors
 
@@ -62,6 +63,7 @@ function ApplyJob() {
       </div>
 
       <div className="flex justify-between mt-6">
+      {currentUser === Job?.createdBy &&  <> 
         <button
           onClick={handleUpdate}
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
@@ -74,6 +76,9 @@ function ApplyJob() {
         >
           🗑️ Delete
         </button>
+       </> 
+       }
+       
       </div>
     </div>
   );

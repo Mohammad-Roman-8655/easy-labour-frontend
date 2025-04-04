@@ -74,10 +74,10 @@ function NavBarTop() {
             >
               Contact
             </NavLink>
-            <div className="flex gap-5">
+            <div className="flex items-center gap-5">
            {user ? (
                 <>
-                <span className="mr-4">Welcome, {user.username}</span>
+                <span className="block text-lg font-semibold py-2 md:inline md:py-0">Welcome, {user.name}</span>
                 <button onClick={logout} className="bg-red-500 px-3 py-1 rounded">
                  Logout
                </button>

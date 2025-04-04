@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import locationData from "../../../../easy-labour-backend/Data/location.json";
+import toast from 'react-hot-toast'
 
 function AddContractor() {
     const [newContractor, setNewContractor] = useState({
@@ -9,6 +11,8 @@ function AddContractor() {
         pnoneNum: '',
         whatsappNum: '',
         email: '',
+        district:'',
+        state:'',
         Address: '',
         loactionToWork: '',
         profession: '',
@@ -18,21 +22,37 @@ function AddContractor() {
         profilePhoto: '',
         prevousWorkPhoto: '',
         Idprof: '',
-        createdBy: '65efbcd98723456789abcd01'
+        
       });
      
-    
-      const handleInputChange = (e) => {
-        setNewContractor({ ...newContractor, [e.target.name]: e.target.value });
-      };
+    const [districts, setDistricts] = useState([]);
+        const handleInputChange = (e) => {
+          const { name, value } = e.target;
+          setNewContractor((prev) => ({ ...prev, [name]: value }));
+      
+          if (name === "state") {
+            const selectedState = locationData.states.find(
+              (s) => s.state === value
+            );
+            setDistricts(selectedState ? selectedState.districts : []);
+            setNewContractor((prev) => ({ ...prev, district: "" })); // Reset district
+          }
+        };
 
       const navigate=useNavigate();
+      const token = localStorage.getItem("token");
       const handleAddContractor = async () => {
+        if(!token) {
+          toast.error("Please Login to Add Contractor")
+          navigate("/Login")
+          return;
+        }
         try {
           const response = await fetch("http://localhost:3000/api/contractors", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+             Authorization: `Bearer ${token}` 
             },
             body: JSON.stringify(newContractor),
           });
@@ -50,7 +70,7 @@ function AddContractor() {
       const handleSubmit = (e) => {
         e.preventDefault();
         handleAddContractor();
-        console.log(newContractor);
+        
       };
       const [ContractorTypes,setContractorTypes]=useState([]);
       
@@ -95,7 +115,7 @@ function AddContractor() {
                 className="p-3 border rounded-lg w-full"
                 required
               >
-                <option value="">Select Gender</option>
+                <option value="" disabled>Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
@@ -126,6 +146,33 @@ function AddContractor() {
                 className="p-3 border rounded-lg w-full"
                 required
               />
+               <select
+                      name="state"
+                      value={newContractor.state}
+                      onChange={handleInputChange}
+                      className="p-3 border rounded-lg w-full"
+                      required
+                >
+               <option value=""  disabled>Select State</option>
+                  {locationData.states.map((stateObj, idx) => (
+                        <option key={idx} value={stateObj.state}>{stateObj.state}</option>
+                     ))}
+              </select>
+
+         <select
+             name="district"
+             value={newContractor.district}
+             onChange={handleInputChange}
+             className="p-3 border rounded-lg w-full"
+             required
+             disabled={!newContractor.state} // Disable until a state is selected
+         >
+            <option value="" disabled>Select District</option>
+            {districts.map((district, idx) => (
+               <option key={idx} value={district}> {district} </option>
+          ))}
+        </select>
+              
             </div>
     
             <textarea
@@ -154,7 +201,7 @@ function AddContractor() {
               className="p-3 border rounded-lg w-full"
               required
             >
-              <option value="">Select Profession</option>
+              <option value="" disabled>Select Profession</option>
               {ContractorTypes.map((ContractorType,idx) => (
                                 <option key={idx} value={ContractorType.contractorType}>  {ContractorType.contractorType} </option>
                               ))} 
@@ -168,7 +215,7 @@ function AddContractor() {
                 className="p-3 border rounded-lg w-full"
                 required
               >
-                <option value="">Select Experience Level</option>
+                <option value="" disabled>Select Experience Level</option>
                 <option value="Beginner">Beginner</option>
                 <option value="Intermediate">Intermediate</option>
                 <option value="Expert">Expert</option>

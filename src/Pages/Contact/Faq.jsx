@@ -1,35 +1,53 @@
+import React, { useState } from 'react';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import React, { useState } from 'react'
-import {AiOutlineMinus,AiOutlinePlus} from 'react-icons/ai'
+function Faq({ title, desc }) {
+  const [open, setOpen] = useState(false);
 
-function Faq({title,desc}) {
-    const [open,setOpen]=useState(false);
   return (
-    <div>
-       
-        <div className="faq_main container mx-auto px-5 lg:max-w-6xl md:max-w-6xl text-black">
-            <div className="">
-                <div className="main top bg-white hover:text-blue-600 hover:bg-gray-50 border-2 rounded flex justify-between items-center px-4 py-3 mb-2 cursor-pointer" onClick={()=>{setOpen(!open)}}>
-                    <div className="left">
-                        <h1 className='lg:text-xl md:text-xl text-xl '>{title}</h1>
-                        
-                    </div>
-                    <div className="right">
-                    {
-                        open ? <AiOutlineMinus className='lg:text-2xl md:text-2xl text-2xl'/>
-                        :<AiOutlinePlus className='lg:text-2xl md:text-2xl text-2xl'/>
-                        
-                    }
-                    </div>
-                </div>
-                { open && <div className="main bottom px-5 py-5 my-[1px] border-2 bg-blue-100 text-black  mb-3 ">
-                    <p className=' text-2xl lg:text-start md:text-start text-justify cursor-pointer  '>{desc}</p>
-
-                </div>}
-            </div>
+    <div className="max-w-5xl mx-auto w-full transition-all duration-500">
+      <motion.div
+        layout
+        className="rounded-2xl shadow-lg mb-5 bg-white/80 backdrop-blur-md border border-gray-200 overflow-hidden hover:shadow-xl"
+      >
+        <div
+          className="flex justify-between items-center px-6 py-5 cursor-pointer group"
+          onClick={() => setOpen(!open)}
+        >
+          <h2 className="text-lg md:text-xl font-semibold text-gray-800 group-hover:text-blue-600 transition-all">
+            {title}
+          </h2>
+          <motion.div
+            initial={{ rotate: 0 }}
+            animate={{ rotate: open ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {open ? (
+              <AiOutlineMinus className="text-blue-600 text-2xl" />
+            ) : (
+              <AiOutlinePlus className="text-gray-600 text-2xl" />
+            )}
+          </motion.div>
         </div>
+
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.div
+              key="content"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4 }}
+              className="px-6 pb-5 text-gray-700 text-base bg-blue-50/60"
+            >
+              <p className="leading-relaxed">{desc}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </div>
-  )
+  );
 }
 
-export default Faq
+export default Faq;

@@ -2,7 +2,8 @@ import React from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
 function ViewDetailsContractor() {
         const location = useLocation();
-      const {Contractor} = location.state || {}; 
+      const {Contractor} = location.state || {};
+      const currentUser = localStorage.getItem("currentUser"); 
       const navigate=useNavigate();
       const handleDeleteContractor = async () => {
         if (!window.confirm("Are you sure you want to delete this Contractor?")) return;
@@ -56,11 +57,14 @@ function ViewDetailsContractor() {
         <p className="text-gray-700"><span className="font-semibold">Email:</span> {Contractor.email}</p>
         <p className="text-gray-700"><span className="font-semibold">Phone:</span> {Contractor.pnoneNum}</p>
         <p className="text-gray-700"><span className="font-semibold">WhatsApp:</span> {Contractor.whatsappNum || "N/A"}</p>
+        <p className="text-gray-700"><span className="font-semibold">Gender:</span> {Contractor.Gender}</p>
       </div>
       <div>
         <p className="text-gray-700"><span className="font-semibold">Location to Work:</span> {Contractor.loactionToWork}</p>
         <p className="text-gray-700"><span className="font-semibold">Address:</span> {Contractor.Address}</p>
-        <p className="text-gray-700"><span className="font-semibold">Gender:</span> {Contractor.Gender}</p>
+        <p className="text-gray-700"><span className="font-semibold">District:</span> {Contractor.district}</p>
+        <p className="text-gray-700"><span className="font-semibold">State:</span> {Contractor.state}</p>
+        
       </div>
     </div>
     <div className="mt-6">
@@ -71,8 +75,12 @@ function ViewDetailsContractor() {
       </div>
     </div>
     <div className="mt-6 flex justify-between">
+    {currentUser === Contractor?.createdBy &&  <> 
       <button onClick={() => {handleUpdateContractorDetails(Contractor)}}  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Update</button>
       <button onClick={() => {handleDeleteContractor()}} className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete</button>
+     </>
+       }
+      
     </div>
   </div>
   )

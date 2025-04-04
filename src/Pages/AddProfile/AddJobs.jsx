@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { useLocation,useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast'
 
 function AddJobs() {
     const [newJob, setNewJob]  = useState({
@@ -13,7 +14,6 @@ function AddJobs() {
         address: "",
         preferredLocation: "",
         salary: "",
-        createdBy: '65efbcd98723456789abcd01',
         companyId :'65efbcd98723456789abcd01'
     });
    
@@ -40,12 +40,19 @@ function AddJobs() {
       
 
       const navigate=useNavigate();
+      const token = localStorage.getItem("token");
       const handleAddJob = async () => {
+        if(!token) {
+          toast.error("Please Login to Add Job")
+          navigate("/Login")
+          return;
+        }
         try {
           const response = await fetch("http://localhost:3000/api/jobs", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+             Authorization: `Bearer ${token}` 
             },
             body: JSON.stringify(newJob),
           });

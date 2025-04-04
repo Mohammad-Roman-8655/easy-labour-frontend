@@ -1,22 +1,40 @@
 import React from 'react'
 import { NavLink,useNavigate } from 'react-router-dom'
 import { useState,useEffect } from 'react'
+import locationData from "../../../../easy-labour-backend/Data/location.json";
 
 function Contractor() {
   const [Contractors,setContractores]=useState([]);
+  const [ContractorTypes,setContractorTypes]=useState([]);
+  const [filteredContractors, setFilteredContractors] = useState([]);
+   
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedDistrict, setSelectedDistrict] = useState('');
+    const [selectedContractorType, setSelectedContractorType] = useState('');
+    const [districts, setDistricts] = useState([]);
 
   const fectchContracters = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/contractors");
       const data= await response.json();
       setContractores(data);
+      setFilteredContractors(data);
       
     } catch (error) {
         console.error("Error : ",error);
     }
   }
 
+        
+              const fetchContractorTypes = async () => {
+                const response = await fetch("http://localhost:3000/api/ContractorType");
+                const data = await response.json();
+                setContractorTypes(data);
+                
+              }
+
   useEffect(() => {
+    fetchContractorTypes();
     fectchContracters();
   },[]);
 
@@ -28,56 +46,106 @@ function Contractor() {
       }}
     );
   }
+
+  const handleStateChange = (e) => {
+      const state = e.target.value;
+      setSelectedState(state);
+      setSelectedDistrict('');
+      setDistricts(locationData.states.find(s => s.state === state)?.districts || []);
+      filterContractors(state, '', selectedContractorType);
+    };
+  
+    const handleDistrictChange = (e) => {
+      const district = e.target.value;
+      setSelectedDistrict(district);
+      filterContractors(selectedState, district, selectedContractorType);
+    };
+  
+    const handleContractorTypeChange = (e) => {
+      const ContractorType = e.target.value;
+      setSelectedContractorType(ContractorType);
+      filterContractors(selectedState, selectedDistrict, ContractorType);
+    };
+  
+    const filterContractors = (state, district, ContractorType) => {
+      let filtered = Contractors;
+      if (state) filtered = filtered.filter(Contractor => Contractor.state === state);
+      if (district) filtered = filtered.filter(Contractor => Contractor.district === district);
+      if (ContractorType) filtered = filtered.filter(Contractor => Contractor.profession === ContractorType);
+      setFilteredContractors(filtered);
+    };
+  
+    const resetFilters = () => {
+      setSelectedState('');
+      setSelectedDistrict('');
+      setSelectedContractorType('');
+      setDistricts([]);
+      setFilteredContractors(Contractors);
+    };
  
   return (
     <div>
     <div className='w-full'>
-    <div className="flex flex-wrap justify-around items-center w-full p-5 bg-blue-500">
-    <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
-      <select
-        className="w-full p-2 border-2 hover:border-black rounded-xl"
-        id="category"
-      >
-        <option value="">Select Location : </option>
-        <option value="">Lucknow</option>
-        <option value="">Kanpur</option>
-        <option value="">Unnao</option>
-        <option value="">Hardoi</option>
-      </select>
-    </div>
-    <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
-     
-      <select
-        className="w-full p-2 border-2 hover:border-black rounded-xl"
-        id="type"
-      >
-        <option value="">Select Contractor Type:</option>
-        <option value="">Labour</option>
-        <option value="">Carpenter</option>
-        <option value="">Welder</option>
-        <option value="">Electrision</option>
-        <option value="">Engineer</option>
-        <option value="">Contractor</option>
-        <option value="">Manager</option>
-        <option value="">Instructor</option>
-     
-      </select>
-    </div>
-    <div className="w-[100%] sm:w-auto lg:w-1/3 h-11   flex justify-center items-center">
-      <button
-        className="lg:w-[30%] md:w-[30%] sm:w-auto p-2 px-5 text-black bg-white font-bold mx-10 border-2 border-black rounded-md"
-      >
-        Search
-      </button>
-      <div className='w-[50%]'>
-        <NavLink className='w-[100%] p-2 px-5 text-black bg-white font-bold mx-10 border-2 border-black rounded-md' to="/AddContractor">Add Contactor</NavLink >
-      </div>
-
-    </div>
-   
+    <div className="flex flex-wrap justify-center items-center gap-4 p-4 bg-blue-500">
+  {/* State Dropdown */}
+  <div className="w-full sm:w-[48%] md:w-[30%] lg:w-[22%]">
+    <select
+      className="w-full p-3 border-2 hover:border-black rounded-xl"
+      id="state"
+      value={selectedState}
+      onChange={handleStateChange}
+    >
+      <option value="">Select state:</option>
+      {locationData.states.map((stateObj, idx) => (
+        <option key={idx} value={stateObj.state}>{stateObj.state}</option>
+      ))}
+    </select>
   </div>
+
+  {/* District Dropdown */}
+  <div className="w-full sm:w-[48%] md:w-[30%] lg:w-[22%]">
+    <select
+      className="w-full p-3 border-2 hover:border-black rounded-xl"
+      id="district"
+      value={selectedDistrict}
+      onChange={handleDistrictChange}
+      disabled={!selectedState}
+    >
+      <option value="">Select district:</option>
+      {districts.map((district, idx) => (
+        <option key={idx} value={district}>{district}</option>
+      ))}
+    </select>
+  </div>
+
+  {/* Contractor Type Dropdown */}
+  <div className="w-full sm:w-[48%] md:w-[30%] lg:w-[22%]">
+    <select
+      className="w-full p-3 border-2 hover:border-black rounded-xl"
+      id="type"
+      value={selectedContractorType}
+      onChange={handleContractorTypeChange}
+    >
+      <option value="">Select Contractor Type:</option>
+      {ContractorTypes.map((ContractorType, idx) => (
+        <option key={idx} value={ContractorType.contractorType}>{ContractorType.contractorType}</option>
+      ))}
+    </select>
+  </div>
+
+  {/* Remove Filter Button */}
+  <div className="w-full sm:w-[48%] md:w-[30%] lg:w-[22%]">
+    <button
+      className="w-full p-3 text-black bg-white font-bold border-2 hover:border-black rounded-xl"
+      onClick={resetFilters}
+    >
+      Remove Filter
+    </button>
+  </div>
+</div>
+
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mx-auto w-full p-5">
-    {Contractors.map((Contractor, index) => (
+    {filteredContractors.map((Contractor, index) => (
       <div key={index} className="w-full border-2 rounded-lg overflow-hidden">
         <img
           className="w-full h-48 object-cover"

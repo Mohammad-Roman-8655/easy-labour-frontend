@@ -15,6 +15,7 @@ import AddLabour from "./Pages/AddProfile/AddLabour"
 import AddContractor from "./Pages/AddProfile/AddContractor"
 import AddEquipments from "./Pages/AddProfile/AddEquipments"
 import AddCompany from "./Pages/AddProfile/AddCompany"
+import AddReview from "./Pages/AddProfile/AddReview"
 import ViewDetailsCompany from "./Pages/ViewDetails/ViewDetailsCompany";
 import ViewDetailsContractor from "./Pages/ViewDetails/ViewDetailsContractor"
 import ViewDetailsLabour from "./Pages/ViewDetails/ViewDetailsLabour"
@@ -40,6 +41,7 @@ import PrivacyAndPolicy from "./Pages/PrivacyAndPolicy/PrivacyAndPolicy"
 import RefundPolicy from "./Pages/RefundPolicy/RefundPolicy"
 import TermsAndConditions from "./Pages/TermsAndConditons/TermsAndConditions"
 import Footer from "./Components/Footer/Footer"
+import { Toaster } from "react-hot-toast";
 
 function App() {
 
@@ -47,6 +49,12 @@ function App() {
   return (
    <>
    <AuthProvider>
+   <Toaster
+                        position="top-right"
+                        toastOptions={{
+                            duration: 3000,
+                        }}
+                    />
    <BrowserRouter>
    <NavBar/>
    <Routes>
@@ -64,6 +72,7 @@ function App() {
     <Route path="/AddCompany" element={<AddCompany/>}/>
     <Route path="/Jobs" element={<Job/>}/>
     <Route path="/ApplyJob" element={<ApplyJob/>}/>
+    <Route path="/AddReview" element={<AddReview/>} />
     <Route path="/Labours" element={<Labour/>}/>
     <Route path="/ViewDetailsLabour" element={<ViewDetailsLabour/>}/>
     <Route path="/ViewDetailsContractor" element={<ViewDetailsContractor/>}/>

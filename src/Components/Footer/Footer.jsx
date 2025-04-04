@@ -26,7 +26,7 @@ function Footer() {
     <div className='flex flex-col w-full lg:w-1/3 p-5 pl-0 lg:pl-10'>
       <NavLink className="hover:underline font-medium" to="/About">About us</NavLink>
       <NavLink className="hover:underline font-medium" to="/Contact">Contact us</NavLink>
-      <NavLink className="hover:underline font-medium" to="/Media">Media</NavLink>
+      <NavLink className="hover:underline font-medium" to="/Services">Media</NavLink>
       <NavLink className="hover:underline font-medium" to="/Jobs">Jobs</NavLink>
       <NavLink className="hover:underline font-medium" to="/Services">Business</NavLink>
       <NavLink className="hover:underline font-medium" to="/Labours">Worker</NavLink>

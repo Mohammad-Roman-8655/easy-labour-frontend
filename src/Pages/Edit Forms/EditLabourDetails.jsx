@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { useLocation,useNavigate } from 'react-router-dom'
+import locationData from "../../../../easy-labour-backend/Data/location.json";
 
 function EditLabourDetails() {
     const location = useLocation();
@@ -7,10 +8,21 @@ function EditLabourDetails() {
       const [editingLabour, setEditingLabour] = useState({});
                  
                   
-            const handleEditInputChange = (e) => {
-                setEditingLabour({ ...editingLabour, [e.target.name]: e.target.value });
-              };
-               
+            // const handleEditInputChange = (e) => {
+            //     setEditingLabour({ ...editingLabour, [e.target.name]: e.target.value });
+            //   };
+              const [districts, setDistricts] = useState([]);
+              const handleEditInputChange = (e) => {
+                const { name, value } = e.target;
+                setEditingLabour((prev) => ({ ...prev, [name]: value }));
+            
+                if (name === "state") {
+                    const selectedState = locationData.states.find((s) => s.state === value);
+                    setDistricts(selectedState ? selectedState.districts : []);
+                    setEditingLabour((prev) => ({ ...prev, district: "" })); // Reset district
+                }
+            };
+            
               const navigate=useNavigate();
               const handleUpdateLabour = async () => {
                 try {
@@ -45,10 +57,21 @@ function EditLabourDetails() {
                     
                   }
             
-              useEffect(() => {
-                setEditingLabour(Labour);
-                fetchLabourTypes();
-              },[]);
+                  useEffect(() => {
+                    if (Labour) {
+                        setEditingLabour(Labour);
+                        
+                        // Find the state object based on the saved state value
+                        const selectedState = locationData.states.find(s => s.state === Labour.state);
+                        
+                        // Set the districts based on the found state
+                        if (selectedState) {
+                            setDistricts(selectedState.districts);
+                        }
+                    }
+                    fetchLabourTypes();
+                }, []);
+                
   return (   
     <div className="w-full max-w-4xl mx-auto p-5 bg-white rounded-lg shadow-lg my-20 border-2">
     <h1 className="text-2xl font-bold text-white p-5 mb-6 bg-blue-500 rounded-xl">Labour Registration Form</h1>
@@ -64,6 +87,36 @@ function EditLabourDetails() {
         </select>
         <input type="tel" name="phoneNum" onChange={handleEditInputChange}  value={editingLabour?.phoneNum || ''} placeholder="Contact Number" required className="w-full border rounded-md p-2" />
         <input type="tel" name="whatsappNum" onChange={handleEditInputChange}  value={editingLabour?.whatsappNum || ''} placeholder="WhatsApp Number (Optional)" className="w-full border rounded-md p-2" />
+           <select
+                   name="state"
+                   value={editingLabour?.state || ''}
+                   onChange={handleEditInputChange}
+                   className="p-3 border rounded-lg w-full"
+                   required
+                 >
+                   <option value="" disabled>Select State</option>
+                   {locationData.states.map((stateObj, idx) => (
+                     <option key={idx} value={stateObj.state}>
+                       {stateObj.state}
+                     </option>
+                   ))}
+                 </select>
+         
+                 <select
+                   name="district"
+                   value={editingLabour?.district || ''}
+                   onChange={handleEditInputChange}
+                   className="p-3 border rounded-lg w-full"
+                   required
+                    // Disable until a state is selected
+                 >
+                   <option value="" disabled>Select District</option>
+                   {districts.map((district, idx) => (
+                     <option key={idx} value={district}>
+                       {district}
+                     </option>
+                   ))}
+                 </select>
         <input type="text" name="address" onChange={handleEditInputChange}  value={editingLabour?.address|| ''} placeholder="Address" required className="w-full border rounded-md p-2" />
         <input type="text" name="locationToWork" onChange={handleEditInputChange}  value={editingLabour?.locationToWork || ''} placeholder="Preferred Work Location" required className="w-full border rounded-md p-2" />
         <select name="profession" onChange={handleEditInputChange}  value={editingLabour?.profession || ''} required className="w-full border rounded-md p-2">

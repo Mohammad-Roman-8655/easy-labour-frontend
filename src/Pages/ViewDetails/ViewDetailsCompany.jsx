@@ -6,6 +6,7 @@ import { useLocation,useNavigate } from 'react-router-dom'
 function ViewDetailsCompany() {
         const location = useLocation();
           const {Company} = location.state || {}; 
+          const currentUser = localStorage.getItem("currentUser");
           const navigate=useNavigate();
           const handleDeleteCompany = async (id) => {
             if (!window.confirm("Are you sure you want to delete this Company?")) return;
@@ -53,6 +54,7 @@ function ViewDetailsCompany() {
       <p className="mt-2"><strong>📜 Description:</strong> {Company.description}</p>
     </div>
     <div className="mt-6 flex space-x-4">
+    {currentUser === Company?.createdBy &&  <> 
       <button
         onClick={() => {handleUpdateCompanyDetails(Company)}}
         className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
@@ -65,6 +67,8 @@ function ViewDetailsCompany() {
       >
         Delete
       </button>
+      </> }
+     
     </div>
   </div>
   )

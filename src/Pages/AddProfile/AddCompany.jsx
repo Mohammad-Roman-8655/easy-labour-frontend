@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast'
 
 function AddCompany() {  
     const [newCompany, setNewCompany] = useState({
@@ -12,7 +13,7 @@ function AddCompany() {
         description: '',
         website: '',
         companyLogo: '',
-        createdBy: '65efbcd98723456789abcd01'
+        
       });
     
       const handleChange = (e) => {
@@ -24,12 +25,19 @@ function AddCompany() {
       };
 
       const navigate=useNavigate();
+      const token = localStorage.getItem("token");
       const handleAddCompany = async () => {
+        if(!token) {
+          toast.error("Please Login to Add Company")
+          navigate("/Login")
+          return;
+        }
         try {
           const response = await fetch("http://localhost:3000/api/companies", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+             Authorization: `Bearer ${token}` 
             },
             body: JSON.stringify(newCompany),
           });

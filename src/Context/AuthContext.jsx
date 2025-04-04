@@ -20,10 +20,7 @@ export const AuthProvider = ({ children }) => {
 
         const res = await fetch("http://localhost:3000/api/auth/profile", {
             method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
+            headers: { Authorization: `Bearer ${token}` }
         });
         console.log(res);
         if (!res.ok) {
@@ -32,6 +29,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         const data = await res.json();
+        localStorage.setItem("currentUser", data._id)
         setUser(data);
     } catch (error) {
         console.error("Error fetching user:", error.message);
@@ -48,6 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("currentUser")
     setUser(null);
     setToken("");
   };

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useLocation,useNavigate } from 'react-router-dom'
+import locationData from "../../../../easy-labour-backend/Data/location.json";
 
 
 function EditContractorDetails() {
@@ -9,9 +10,17 @@ function EditContractorDetails() {
      const [editingContractor, setEditingContractor] = useState({});
              
               
-        const handleEditInputChange = (e) => {
-            setEditingContractor({ ...editingContractor, [e.target.name]: e.target.value });
-          };
+        const [districts, setDistricts] = useState([]);
+                     const handleEditInputChange = (e) => {
+                       const { name, value } = e.target;
+                       setEditingContractor((prev) => ({ ...prev, [name]: value }));
+                   
+                       if (name === "state") {
+                           const selectedState = locationData.states.find((s) => s.state === value);
+                           setDistricts(selectedState ? selectedState.districts : []);
+                           setEditingContractor((prev) => ({ ...prev, district: "" })); // Reset district
+                       }
+                   };
            
           const navigate=useNavigate();
           const handleUpdateContractor = async () => {
@@ -48,11 +57,21 @@ function EditContractorDetails() {
                       }
                 
                      
-    
-          useEffect(() => {
-            fetchContractorTypes();
-            setEditingContractor(Contractor);
-          },[]);
+           useEffect(() => {
+                             if (Contractor) {
+                                 setEditingContractor(Contractor);
+                                 
+                                 // Find the state object based on the saved state value
+                                 const selectedState = locationData.states.find(s => s.state === Contractor.state);
+                                 
+                                 // Set the districts based on the found state
+                                 if (selectedState) {
+                                     setDistricts(selectedState.districts);
+                                 }
+                             }
+                             fetchContractorTypes();
+                         }, []);
+        
   return (
     <div className="max-w-4xl mx-auto p-5 bg-gray-100 rounded-lg shadow-lg my-20">
     <h1 className="text-3xl font-bold text-white p-4 rounded-xl mb-6 bg-blue-600">Contractor Registration Form</h1>
@@ -114,7 +133,36 @@ function EditContractorDetails() {
           required
         />
       </div>
-
+                      <select
+                                  name="state"
+                                  value={editingContractor?.state || ''}
+                                  onChange={handleEditInputChange}
+                                  className="p-3 border rounded-lg w-full"
+                                  required
+                                >
+                                  <option value="" disabled>Select State</option>
+                                  {locationData.states.map((stateObj, idx) => (
+                                    <option key={idx} value={stateObj.state}>
+                                      {stateObj.state}
+                                    </option>
+                                  ))}
+                                </select>
+                        
+                                <select
+                                  name="district"
+                                  value={editingContractor?.district || ''}
+                                  onChange={handleEditInputChange}
+                                  className="p-3 border rounded-lg w-full"
+                                  required
+                                   // Disable until a state is selected
+                                >
+                                  <option value="" disabled>Select District</option>
+                                  {districts.map((district, idx) => (
+                                    <option key={idx} value={district}>
+                                      {district}
+                                    </option>
+                                  ))}
+                                </select>
       <textarea
         name="Address"
         placeholder="Address"
@@ -158,7 +206,7 @@ function EditContractorDetails() {
           className="p-3 border rounded-lg w-full"
           required
         >
-          <option value="">Select Experience Level</option>
+          <option value="" disabled>Select Experience Level</option>
           <option value="Beginner">Beginner</option>
           <option value="Intermediate">Intermediate</option>
           <option value="Expert">Expert</option>
@@ -181,7 +229,7 @@ function EditContractorDetails() {
         className="p-3 border rounded-lg w-full"
         required
       >
-        <option value="">Select Availability</option>
+        <option value="" disabled>Select Availability</option>
         <option value="Available">Available</option>
         <option value="Busy">Busy</option>
       </select>
