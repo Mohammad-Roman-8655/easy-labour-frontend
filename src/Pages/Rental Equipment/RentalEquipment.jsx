@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import locationData from "../../../../easy-labour-backend/Data/location.json";
+import { API_URL } from '../../config/apiConfiq';
 
 function RentalEquipment() {
   const [Shops, setShops] = useState([]);
@@ -17,7 +18,7 @@ function RentalEquipment() {
 
   const fetchShops = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/shops');
+      const response = await fetch(`${API_URL}/api/shops`);
       const data = await response.json();
       setShops(data);
       setFilteredShops(data);

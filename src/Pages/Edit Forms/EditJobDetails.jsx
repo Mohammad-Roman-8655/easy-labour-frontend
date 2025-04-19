@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { useLocation,useNavigate } from "react-router-dom";
+import { API_URL } from "../../config/apiConfiq";
 
 function EditJobDetails() {
   const location = useLocation();
@@ -12,7 +13,7 @@ function EditJobDetails() {
   // Fetch the company names and logos from the API
   const fetchCompanyNames = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/Companies");
+      const response = await fetch(`${API_URL}/api/companies`);
       const data = await response.json();
       setCompanyNames(data);
     } catch (error) {
@@ -29,7 +30,7 @@ function EditJobDetails() {
    const [LabourTypes,setLabourTypes]=useState([]);
           
                 const fetchLabourTypes = async () => {
-                  const response = await fetch("http://localhost:3000/api/LabourType");
+                  const response = await fetch(`${API_URL}/api/labour-type`);
                   const data = await response.json();
                   setLabourTypes(data);
                   
@@ -67,7 +68,7 @@ function EditJobDetails() {
   const handleUpdateJob = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/Jobs/${editingJob._id}`,
+        `${API_URL}/api/Jobs/${editingJob._id}`,
         {
           method: "PUT",
           headers: {

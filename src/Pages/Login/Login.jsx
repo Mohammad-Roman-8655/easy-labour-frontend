@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config/apiConfiq";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -16,7 +17,7 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3000/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

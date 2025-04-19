@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import locationData from "../../../../easy-labour-backend/Data/location.json"; // Import the JSON file
 import toast from 'react-hot-toast'
+import { API_URL } from "../../config/apiConfiq";
 
 
 function AddLabour() {
@@ -35,7 +36,7 @@ function AddLabour() {
   // Fetch Labour Types
   const fetchLabourTypes = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/LabourType");
+      const response = await fetch(`${API_URL}/api/labour-type`);
       const data = await response.json();
       setLabourTypes(data);
     } catch (error) {
@@ -69,7 +70,7 @@ function AddLabour() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:3000/api/labours", {
+      const response = await fetch(`${API_URL}/api/labours`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +92,7 @@ function AddLabour() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(newLabour);
+    console.log(newLabour);  //onSubmit={handleSubmit}   value={newLabour.name} onChange={handleInputChange}
     handleAddLabour();
   };
 

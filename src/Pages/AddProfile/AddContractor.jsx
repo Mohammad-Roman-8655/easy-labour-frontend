@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import locationData from "../../../../easy-labour-backend/Data/location.json";
 import toast from 'react-hot-toast'
+import { API_URL } from '../../config/apiConfiq';
 
 function AddContractor() {
     const [newContractor, setNewContractor] = useState({
@@ -48,7 +49,7 @@ function AddContractor() {
           return;
         }
         try {
-          const response = await fetch("http://localhost:3000/api/contractors", {
+          const response = await fetch(`${API_URL}/api/contractors`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -75,7 +76,7 @@ function AddContractor() {
       const [ContractorTypes,setContractorTypes]=useState([]);
       
             const fetchContractorTypes = async () => {
-              const response = await fetch("http://localhost:3000/api/ContractorType");
+              const response = await fetch(`${API_URL}/api/contractor-type`);
               const data = await response.json();
               setContractorTypes(data);
               

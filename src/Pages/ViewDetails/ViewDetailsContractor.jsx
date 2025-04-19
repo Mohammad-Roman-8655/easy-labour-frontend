@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
+import { API_URL } from '../../config/apiConfiq';
 function ViewDetailsContractor() {
         const location = useLocation();
       const {Contractor} = location.state || {};
@@ -9,7 +10,7 @@ function ViewDetailsContractor() {
         if (!window.confirm("Are you sure you want to delete this Contractor?")) return;
       
         try {
-          const response = await fetch(`http://localhost:3000/api/contractors/${Contractor._id}`, {
+          const response = await fetch(`${API_URL}/api/contractors/${Contractor._id}`, {
             method: "DELETE",
           });
       

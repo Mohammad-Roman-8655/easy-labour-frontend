@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import { useLocation,useNavigate } from "react-router-dom";
+import { API_URL } from '../../config/apiConfiq';
 
 function ViewDetailsLabour() {
     const location = useLocation();
@@ -14,7 +15,7 @@ function ViewDetailsLabour() {
     if (!window.confirm("Are you sure you want to delete this Labour?")) return;
   
     try {
-      const response = await fetch(`http://localhost:3000/api/Labours/${Labour._id}`, {
+      const response = await fetch(`${API_URL}/api/labours/${Labour._id}`, {
         method: "DELETE",
       });
   

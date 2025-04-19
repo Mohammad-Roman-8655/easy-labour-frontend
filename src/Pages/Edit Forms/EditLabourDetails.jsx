@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { useLocation,useNavigate } from 'react-router-dom'
 import locationData from "../../../../easy-labour-backend/Data/location.json";
+import { API_URL } from '../../config/apiConfiq';
 
 function EditLabourDetails() {
     const location = useLocation();
@@ -26,7 +27,7 @@ function EditLabourDetails() {
               const navigate=useNavigate();
               const handleUpdateLabour = async () => {
                 try {
-                  const response = await fetch(`http://localhost:3000/api/labours/${editingLabour._id}`, {
+                  const response = await fetch(`${API_URL}/api/labours/${editingLabour._id}`, {
                     method: "PUT",
                     headers: {
                       "Content-Type": "application/json",
@@ -51,7 +52,7 @@ function EditLabourDetails() {
               const [LabourTypes,setLabourTypes]=useState([]);
             
                   const fetchLabourTypes = async () => {
-                    const response = await fetch("http://localhost:3000/api/LabourType");
+                    const response = await fetch(`${API_URL}/api/labour-type`);
                     const data = await response.json();
                     setLabourTypes(data);
                     

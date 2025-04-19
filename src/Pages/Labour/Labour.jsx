@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import locationData from "../../../../easy-labour-backend/Data/location.json";
+import { API_URL } from '../../config/apiConfiq';
 
 function Labour() {
   const [labours, setLabours] = useState([]);
@@ -20,7 +21,7 @@ function Labour() {
 
   const fetchLabours = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/labours');
+      const response = await fetch(`${API_URL}/api/labours`);
       const data = await response.json();
       setLabours(data);
       setFilteredLabours(data);
@@ -31,7 +32,7 @@ function Labour() {
 
   const fetchLabourTypes = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/LabourType");
+      const response = await fetch(`${API_URL}/api/labour-type`);
       const data = await response.json();
       setLabourTypes(data);
     } catch (error) {

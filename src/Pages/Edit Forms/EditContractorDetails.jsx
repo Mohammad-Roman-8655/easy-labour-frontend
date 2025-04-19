@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useLocation,useNavigate } from 'react-router-dom'
 import locationData from "../../../../easy-labour-backend/Data/location.json";
+import { API_URL } from '../../config/apiConfiq';
 
 
 function EditContractorDetails() {
@@ -25,7 +26,7 @@ function EditContractorDetails() {
           const navigate=useNavigate();
           const handleUpdateContractor = async () => {
             try {
-              const response = await fetch(`http://localhost:3000/api/contractors/${editingContractor._id}`, {
+              const response = await fetch(`${API_URL}/api/contractors/${editingContractor._id}`, {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
@@ -50,7 +51,7 @@ function EditContractorDetails() {
            const [ContractorTypes,setContractorTypes]=useState([]);
                 
                       const fetchContractorTypes = async () => {
-                        const response = await fetch("http://localhost:3000/api/ContractorType");
+                        const response = await fetch(`${API_URL}/api/contractor-type`);
                         const data = await response.json();
                         setContractorTypes(data);
                         

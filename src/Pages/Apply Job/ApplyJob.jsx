@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { API_URL } from "../../config/apiConfiq";
 
 function ApplyJob() {
   const location = useLocation();
@@ -25,7 +26,7 @@ function ApplyJob() {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/api/jobs/${Job._id}`, {
+      const response = await fetch(`${API_URL}/api/jobs/${Job._id}`, {
         method: "DELETE",
       });
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { API_URL } from "../../config/apiConfiq";
 
 function Job() {
   const [Jobs, setJobs] = useState([]);
@@ -13,7 +14,7 @@ function Job() {
   // Fetch Jobs
   const fetchJobs = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/jobs");
+      const response = await fetch(`${API_URL}/api/jobs`);
       const data = await response.json();
       setJobs(data);
       setFilteredJobs(data); // Initialize filtered jobs with all jobs
@@ -25,7 +26,7 @@ function Job() {
   // Fetch Companies
   const fetchCompanies = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/Companies");
+      const response = await fetch(`${API_URL}/api/companies`);
       const data = await response.json();
       setCompanies(data);
     } catch (error) {
@@ -36,7 +37,7 @@ function Job() {
   // Fetch Labour Types
   const fetchLabourTypes = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/LabourType");
+      const response = await fetch(`${API_URL}/api/labour-type`);
       const data = await response.json();
       setLabourTypes(data);
     } catch (error) {

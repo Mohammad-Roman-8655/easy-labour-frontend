@@ -50,11 +50,11 @@ function App() {
    <>
    <AuthProvider>
    <Toaster
-                        position="top-right"
-                        toastOptions={{
-                            duration: 3000,
-                        }}
-                    />
+       position="top-right"
+       toastOptions={{
+            duration: 3000,
+        }}
+      />
    <BrowserRouter>
    <NavBar/>
    <Routes>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast'
+import { API_URL } from '../../config/apiConfiq';
 
 function AddCompany() {  
     const [newCompany, setNewCompany] = useState({
@@ -33,7 +34,7 @@ function AddCompany() {
           return;
         }
         try {
-          const response = await fetch("http://localhost:3000/api/companies", {
+          const response = await fetch(`${API_URL}/api/companies`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

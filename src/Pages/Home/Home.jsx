@@ -4,13 +4,14 @@ import { useState,useEffect } from 'react'
 
 import NavBarMain from '../../Components/NavBarComp/NavBarMain'
 import Faq from '../Contact/Faq'
+import { API_URL } from '../../config/apiConfiq'
 
 
 function Home() {
   const [Reviews,setReviews]=useState([]);
   const fetchReviews = async () => {
     try {
-        const response = await fetch("http://localhost:3000/api/reviews");
+        const response = await fetch(`${API_URL}/api/reviews`);
         const data = await response.json();
         setReviews(data.slice(0, 10));  // Take only the first 6 reviews
     } catch (error) {

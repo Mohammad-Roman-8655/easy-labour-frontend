@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import locationData from "../../../../easy-labour-backend/Data/location.json";
+import { API_URL } from "../../config/apiConfiq";
 
 function EditShopDetails() {
   const location = useLocation();
@@ -41,7 +42,7 @@ function EditShopDetails() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/api/shops/${editingShop._id}`, {
+      const response = await fetch(`${API_URL}/api/shops/${editingShop._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingShop),

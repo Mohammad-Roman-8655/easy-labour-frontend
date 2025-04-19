@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast'
+import { API_URL } from "../../config/apiConfiq";
 
 function AddReview() {
     const navigate = useNavigate();
   const [newReview, setNewReview] = useState({
     reviewerName: "",
-    reviewerPosition: "Labour",
+    reviewerPosition: "",
     reviewerImage: "",
     rating: 1,
     comment: "",
@@ -24,7 +25,7 @@ function AddReview() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:3000/api/reviews", {
+      const response = await fetch(`${API_URL}/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

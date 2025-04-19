@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink,useNavigate } from 'react-router-dom'
 import { useState,useEffect } from 'react'
 import locationData from "../../../../easy-labour-backend/Data/location.json";
+import { API_URL } from '../../config/apiConfiq';
 
 function Contractor() {
   const [Contractors,setContractores]=useState([]);
@@ -15,7 +16,7 @@ function Contractor() {
 
   const fectchContracters = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/contractors");
+      const response = await fetch(`${API_URL}/api/contractors`);
       const data= await response.json();
       setContractores(data);
       setFilteredContractors(data);
@@ -27,7 +28,7 @@ function Contractor() {
 
         
               const fetchContractorTypes = async () => {
-                const response = await fetch("http://localhost:3000/api/ContractorType");
+                const response = await fetch(`${API_URL}/api/contractor-type`);
                 const data = await response.json();
                 setContractorTypes(data);
                 

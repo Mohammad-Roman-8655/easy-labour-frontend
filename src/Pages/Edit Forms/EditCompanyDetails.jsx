@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
+import { API_URL } from '../../config/apiConfiq';
 
 function EditCompanyDetails() {
     const location =useLocation();
@@ -15,7 +16,7 @@ function EditCompanyDetails() {
       const navigate=useNavigate();
       const handleUpdateCompany = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/api/companies/${editingCompany._id}`, {
+          const response = await fetch(`${API_URL}/api/companies/${editingCompany._id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",

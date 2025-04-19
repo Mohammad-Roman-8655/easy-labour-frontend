@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import locationData from "../../../../easy-labour-backend/Data/location.json";
 import toast from 'react-hot-toast'
+import { API_URL } from '../../config/apiConfiq';
 
 function AddEquipments() {
   const [newShop, setNewShop] = useState({
@@ -46,7 +47,7 @@ function AddEquipments() {
           return;
         }
          try {
-           const response = await fetch("http://localhost:3000/api/shops", {
+           const response = await fetch(`${API_URL}/api/shops`, {
              method: "POST",
              headers: {
               "Content-Type": "application/json",

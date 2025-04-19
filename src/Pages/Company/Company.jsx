@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
 import { useNavigate,NavLink } from 'react-router-dom';
+import { API_URL } from '../../config/apiConfiq';
 
 function Company() {
   const [Companies, setCompanies] = useState([]);
       
   const fetchCompanies = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/Companies");
+      const response = await fetch(`${API_URL}/api/companies`);
       const data = await response.json();
       setCompanies(data);
     } catch (error) {

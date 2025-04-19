@@ -1,12 +1,13 @@
 import React from 'react'
 import { NavLink,useNavigate } from 'react-router-dom'
 import { useState,useEffect } from 'react'
+import { API_URL } from '../../config/apiConfiq';
 
 function Reviews() {
    const [Reviews,setReviews]=useState([]);
     const fetchReviews = async () => {
       try {
-          const response= await fetch("http://localhost:3000/api/reviews");
+          const response= await fetch(`${API_URL}/api/reviews`);
           const data= await response.json();
           setReviews(data);
       } catch (error) {
