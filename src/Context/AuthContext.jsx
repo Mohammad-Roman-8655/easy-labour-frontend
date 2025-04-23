@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { API_URL } from "../config/apiConfiq";
 
 export const AuthContext = createContext();
 
@@ -18,7 +19,7 @@ export const AuthProvider = ({ children }) => {
        
         if (!token) return;
 
-        const res = await fetch("http://localhost:3000/api/auth/profile", {
+        const res = await fetch(`${API_URL}/api/auth/profile`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` }
         });
