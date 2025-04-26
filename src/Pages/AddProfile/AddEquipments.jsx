@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import locationData from "../../../../easy-labour-backend/Data/location.json";
+import locationData from "../../Data/location.json";
 import toast from 'react-hot-toast'
 import { API_URL } from '../../config/apiConfiq';
 

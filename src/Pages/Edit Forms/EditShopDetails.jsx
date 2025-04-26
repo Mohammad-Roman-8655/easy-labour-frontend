@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import locationData from "../../../../easy-labour-backend/Data/location.json";
+import locationData from "../../Data/location.json";
 import { API_URL } from "../../config/apiConfiq";
 
 function EditShopDetails() {

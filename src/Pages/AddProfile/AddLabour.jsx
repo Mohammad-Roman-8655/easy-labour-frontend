@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import locationData from "../../../../easy-labour-backend/Data/location.json"; // Import the JSON file
+import locationData from "../../Data/location.json"; // Import the JSON file
 import toast from 'react-hot-toast'
 import { API_URL } from "../../config/apiConfiq";
 
