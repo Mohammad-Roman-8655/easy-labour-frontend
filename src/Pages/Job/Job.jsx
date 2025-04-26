@@ -130,7 +130,7 @@ function Job() {
             <div className="flex flex-col p-3">
               <h1 className="text-xl font-semibold">{Job.companyName}</h1>
               <p className="font-normal">Vacancy : {Job.vacancies}</p>
-              <p className="font-normal">Type : {Job.jobType}</p>
+              <p className="font-normal">Type : {Job.vacancyType}</p>
               <p className="font-normal">Salary : {Job.salary} /day</p>
               <p className="font-normal">
                 Email :{" "}

@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { API_URL } from "../../config/apiConfiq";
 
 function AddJobs() {
+  const [CompanyId,setCompanyId]=useState({});
     const [newJob, setNewJob]  = useState({
         companyName: "",
         companyLogo: "",
@@ -15,7 +16,7 @@ function AddJobs() {
         address: "",
         preferredLocation: "",
         salary: "",
-        companyId :'65efbcd98723456789abcd01'
+        companyId :CompanyId._id
     });
    
 
@@ -75,8 +76,10 @@ function AddJobs() {
       };
 
       const [companyNames,setCompanyNames]=useState([]);
+     
        const fetchCompanyNames = async () => {
           try {
+
             const response = await fetch(`${API_URL}/api/companies`);
             const data = await response.json();
             setCompanyNames(data);
@@ -111,9 +114,7 @@ function AddJobs() {
                     <select name="companyName" value={newJob.companyName} onChange={handleInputChange} className="w-full border p-2 rounded-lg">
                              <option value="" disabled>Select Company Name</option>
                               {companyNames.map((company) => (
-                                       <option key={company._id} value={company.companyName}>
-                                                                          {company.companyName}
-                                       </option>
+                                       <option key={company._id} onChange={() => {setCompanyId(company._id)} } value={company.companyName}>{company.companyName}</option>
                                 ))}
                     </select>
                 </div>
