@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink,useNavigate } from 'react-router-dom'
 import { useState,useEffect } from 'react'
-import locationData from "../../../src/Data/location.json";
+import locationData from "../../Data/location.json";
 import { API_URL } from '../../config/apiConfiq';
 
 function Contractor() {
