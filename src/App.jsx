@@ -2,7 +2,7 @@ import React from "react"
 import { AuthProvider } from "./Context/AuthContext";
 import { BrowserRouter,Route,Routes} from "react-router-dom"
 
-import NavBar from "./Components/NavBarComp/navBar"
+import NavBar from "./Components/NavBarComp/NavBar"
 import Home from  "./Pages/Home/Home"
 import Services from "./Pages/Services/Services"
 import About from "./Pages/About/About"
